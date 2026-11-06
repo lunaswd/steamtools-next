@@ -658,7 +658,9 @@ impl<'a> KvReader<'a> {
                     let length = u16::from_le_bytes(self.take(2)?.try_into()?) as usize;
                     let words: Vec<u16> = self
                         .take(length * 2)?
-                        .chunks_exact(2)
+                        .as_chunks::<2>()
+                        .0
+                        .iter()
                         .map(|pair| u16::from_le_bytes([pair[0], pair[1]]))
                         .collect();
                     Kv::Text(
