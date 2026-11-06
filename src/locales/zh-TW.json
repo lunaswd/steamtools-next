@@ -652,7 +652,7 @@
   "catalog.partialDetails": "有 {count} 個倉庫或 DLC 未就緒，可稍後重試補齊。ID：{ids}",
   "common.moreOptions": "更多選項",
   "achievements.operationNotes": "操作說明",
-  "error.steamSessionOffline": "Steam 目前離線，請恢復連線並重新整理狀態後操作。",
+  "error.steamSessionOffline": "Steam 未執行或目前離線。請啟動 Steam 並登入，再重新整理或重新連線目前工作階段。",
   "error.steamSessionSignedOut": "Steam 目前未登入，請登入用戶端並重新整理狀態。",
   "error.steamSessionChanged": "Steam 帳號已變更，舊狀態已清除，請重新整理後操作。",
   "error.steamSessionStarting": "Steam 工作階段仍在初始化，請稍後重新整理。",
@@ -722,5 +722,6 @@
   "updates.updateRestart": "一鍵更新並重啟",
   "updates.later": "稍後",
   "updates.lastChecked": "最近檢查",
-  "updates.notChecked": "尚未檢查"
+  "updates.notChecked": "尚未檢查",
+  "error.steamClientInvalid": "Steam 用戶端檔案無效或損壞。請確認實際的 Steam 安裝目錄，並修復或重新安裝 Steam 用戶端。"
 }

@@ -52,7 +52,13 @@ impl SteamSessionReadinessError {
             detail: detail.into(),
         }
     }
-    fn from_code(code: &str, detail: String) -> Option<Self> {
+    pub(crate) fn offline(detail: impl Into<String>) -> Self {
+        Self {
+            state: SteamSessionReadinessState::Offline,
+            detail: detail.into(),
+        }
+    }
+    pub(crate) fn from_code(code: &str, detail: String) -> Option<Self> {
         let detail = detail
             .strip_prefix(&format!("{code}: "))
             .unwrap_or(&detail)
@@ -79,6 +85,24 @@ pub fn steam_session_error_code(error: &anyhow::Error) -> Option<&'static str> {
     error
         .downcast_ref::<SteamSessionReadinessError>()
         .map(SteamSessionReadinessError::code)
+        .or_else(|| {
+            error
+                .downcast_ref::<crate::steam_native::SteamClientValidationError>()
+                .map(crate::steam_native::SteamClientValidationError::code)
+        })
+}
+
+/// Restore typed native-session failures crossing an isolated worker's JSON.
+pub fn steam_session_error_from_code(code: &str, detail: String) -> anyhow::Error {
+    if let Some(error) = SteamSessionReadinessError::from_code(code, detail.clone()) {
+        return error.into();
+    }
+    if let Some(error) =
+        crate::steam_native::SteamClientValidationError::from_code(code, detail.clone())
+    {
+        return error.into();
+    }
+    anyhow::anyhow!(detail)
 }
 
 #[derive(Clone, Copy)]
@@ -318,13 +342,9 @@ fn worker_response_error(
     fallback: &str,
 ) -> anyhow::Error {
     let detail = detail.unwrap_or_else(|| fallback.into());
-    if let Some(error) = code
-        .as_deref()
-        .and_then(|code| SteamSessionReadinessError::from_code(code, detail.clone()))
-    {
-        error.into()
-    } else {
-        anyhow::anyhow!(detail)
+    match code.as_deref() {
+        Some(code) => steam_session_error_from_code(code, detail),
+        None => anyhow::anyhow!(detail),
     }
 }
 
@@ -404,7 +424,9 @@ fn steam_root(path: Option<&Path>) -> Result<PathBuf> {
                 .path,
         )
     };
-    if !root.join("steam.exe").is_file() {
+    let root = crate::kernel_manage::absolute_local_path(&root, "Steam installation")?;
+    crate::kernel_manage::reject_link_ancestors(&root.join("steam.exe"))?;
+    if !fs::symlink_metadata(root.join("steam.exe")).is_ok_and(|metadata| metadata.is_file()) {
         bail!("Steam installation is missing steam.exe");
     }
     root.canonicalize()
@@ -478,9 +500,11 @@ fn invoke_worker(
     cache_dir: &Path,
     request: &WorkerRequest,
 ) -> Result<WorkerResponse> {
+    crate::steam_native::ensure_session_running(&request.steam_path)?;
     let _lock = WORKER_LOCK
         .lock()
         .map_err(|_| anyhow::anyhow!("Achievement worker lock is poisoned"))?;
+    crate::steam_native::ensure_session_running(&request.steam_path)?;
     fs::create_dir_all(cache_dir)?;
     let timestamp = SystemTime::now().duration_since(UNIX_EPOCH)?.as_nanos();
     let directory = cache_dir.join(format!(
@@ -835,6 +859,7 @@ fn parse_schema(bytes: &[u8], app_id: u32, locale: &str) -> Result<AchievementCa
 }
 
 fn execute_worker(request: &WorkerRequest) -> Result<WorkerResponse> {
+    crate::steam_native::ensure_session_running(&request.steam_path)?;
     let schema_path = request
         .steam_path
         .join("appcache")
@@ -1042,25 +1067,22 @@ mod native {
     }
     impl SteamClient {
         pub fn connect(root: &Path, app_id: u32) -> Result<Self> {
+            let path = crate::steam_native::prepare_client_library(root)?;
             unsafe {
                 // Only this isolated worker process receives the per-game environment.
                 std::env::set_var("SteamAppId", app_id.to_string());
                 std::env::set_var("SteamGameId", app_id.to_string());
-                let path = [
-                    root.join("steamclient64.dll"),
-                    root.join("bin").join("steamclient64.dll"),
-                ]
-                .into_iter()
-                .find(|path| path.is_file())
-                .context("steamclient64.dll was not found")?;
                 let wide: Vec<u16> = path.as_os_str().encode_wide().chain(Some(0)).collect();
-                let handle = LoadLibraryExW(wide.as_ptr(), ptr::null_mut(), 8); // absolute DLL, altered search path
-                if handle.is_null() {
-                    bail!(
-                        "Steam client DLL load failed: {}",
-                        std::io::Error::last_os_error()
-                    );
-                }
+                let handle = crate::steam_native::with_suppressed_loader_errors(|| {
+                    let handle = LoadLibraryExW(wide.as_ptr(), ptr::null_mut(), 8); // absolute DLL, altered search path
+                    if handle.is_null() {
+                        bail!(
+                            "Steam client DLL load failed: {}",
+                            std::io::Error::last_os_error()
+                        );
+                    }
+                    Ok(handle)
+                })?;
                 let module = Module(handle);
                 let create: CreateInterface = export(handle, b"CreateInterface\0")?;
                 let get_callback = export(handle, b"Steam_BGetCallback\0")?;
@@ -1386,6 +1408,32 @@ mod native {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn stopped_client_preflight_prevents_worker_spawn_and_bad_image_loading() {
+        let fixture = tempfile::tempdir().unwrap();
+        let steam = fixture.path().join("Steam");
+        let cache = fixture.path().join("worker-cache");
+        fs::create_dir(&steam).unwrap();
+        fs::write(steam.join("steam.exe"), b"isolated fixture, not a process").unwrap();
+        fs::write(steam.join("steamclient64.dll"), b"not a Windows DLL").unwrap();
+        let error = list_achievements(
+            &std::env::current_exe().unwrap(),
+            &cache,
+            Some(&steam),
+            1,
+            "en",
+        )
+        .unwrap_err();
+        assert_eq!(
+            steam_session_error_code(&error),
+            Some("steam_session_offline")
+        );
+        assert!(
+            !cache.exists(),
+            "A stopped client must not create or launch an IPC worker"
+        );
+    }
     #[test]
     fn temporary_logged_on_false_is_retried_before_valid_ipc_session_is_rejected() {
         let attempts = std::cell::Cell::new(0);

@@ -27,6 +27,24 @@ struct CommandError {
 }
 
 impl CommandError {
+    fn steam_session(
+        fallback_key: &'static str,
+        code: Option<&'static str>,
+        error: impl ToString,
+    ) -> Self {
+        let code = code.unwrap_or("operation_failed");
+        let key = match code {
+            "steam_session_offline" => "error.steamSessionOffline",
+            "steam_session_signed_out" => "error.steamSessionSignedOut",
+            "steam_session_identity_changed" => "error.steamSessionChanged",
+            "steam_session_startup_timeout" => "error.steamSessionStarting",
+            "steam_client_invalid" => "error.steamClientInvalid",
+            _ => fallback_key,
+        };
+        let mut result = Self::operation(key, error);
+        result.code = code;
+        result
+    }
     fn operation(message_key: &'static str, detail: impl ToString) -> Self {
         Self {
             code: "operation_failed",
@@ -896,10 +914,11 @@ async fn load_achievement_image_command(
 async fn current_steam_session_command(
     steam_path: Option<String>,
 ) -> Result<steam_tools_core::CurrentSteamSession, CommandError> {
-    background("error.extractFailed", move || {
-        let exe = std::env::current_exe().map_err(|error| error.to_string())?;
+    background_session("error.extractFailed", move || {
+        let exe = std::env::current_exe()
+            .map_err(|error| CommandError::operation("error.extractFailed", error))?;
         let cache = app_data_dir()
-            .map_err(|error| error.to_string())?
+            .map_err(|error| CommandError::operation("error.extractFailed", error))?
             .join("cache")
             .join("extract-workers-v1");
         steam_tools_core::current_steam_session(
@@ -910,7 +929,13 @@ async fn current_steam_session_command(
                 .filter(|path| !path.trim().is_empty())
                 .map(Path::new),
         )
-        .map_err(|error| error.to_string())
+        .map_err(|error| {
+            CommandError::steam_session(
+                "error.extractFailed",
+                steam_tools_core::steam_session_error_code(&error),
+                error,
+            )
+        })
     })
     .await
 }
@@ -921,10 +946,11 @@ async fn extract_current_session_command(
     locale: String,
     expected_account_fingerprint: Option<String>,
 ) -> Result<steam_tools_core::CurrentSessionExtraction, CommandError> {
-    background("error.extractFailed", move || {
-        let exe = std::env::current_exe().map_err(|error| error.to_string())?;
+    background_session("error.extractFailed", move || {
+        let exe = std::env::current_exe()
+            .map_err(|error| CommandError::operation("error.extractFailed", error))?;
         let cache = app_data_dir()
-            .map_err(|error| error.to_string())?
+            .map_err(|error| CommandError::operation("error.extractFailed", error))?
             .join("cache")
             .join("extract-workers-v1");
         steam_tools_core::extract_current_session(
@@ -938,7 +964,13 @@ async fn extract_current_session_command(
             &locale,
             expected_account_fingerprint.as_deref(),
         )
-        .map_err(|error| error.to_string())
+        .map_err(|error| {
+            CommandError::steam_session(
+                "error.extractFailed",
+                steam_tools_core::steam_session_error_code(&error),
+                error,
+            )
+        })
     })
     .await
 }
@@ -951,10 +983,11 @@ async fn export_current_session_command(
     destination_directory: String,
 ) -> Result<steam_tools_core::CurrentSessionExport, CommandError> {
     let destination = require_path(&destination_directory, "Extraction export directory")?;
-    background("error.extractFailed", move || {
-        let exe = std::env::current_exe().map_err(|error| error.to_string())?;
+    background_session("error.extractFailed", move || {
+        let exe = std::env::current_exe()
+            .map_err(|error| CommandError::operation("error.extractFailed", error))?;
         let cache = app_data_dir()
-            .map_err(|error| error.to_string())?
+            .map_err(|error| CommandError::operation("error.extractFailed", error))?
             .join("cache")
             .join("extract-workers-v1");
         steam_tools_core::export_current_session(
@@ -969,7 +1002,13 @@ async fn export_current_session_command(
             expected_account_fingerprint.as_deref(),
             &destination,
         )
-        .map_err(|error| error.to_string())
+        .map_err(|error| {
+            CommandError::steam_session(
+                "error.extractFailed",
+                steam_tools_core::steam_session_error_code(&error),
+                error,
+            )
+        })
     })
     .await
 }
@@ -1069,6 +1108,31 @@ mod tests {
                 .unwrap();
         assert_eq!(value["code"], "invalid_input");
         assert_eq!(value["messageKey"], "error.pathRequired");
+    }
+
+    #[test]
+    fn offline_extraction_error_keeps_native_code_and_user_facing_message() {
+        let value = serde_json::to_value(CommandError::steam_session(
+            "error.extractFailed",
+            Some("steam_session_offline"),
+            "Steam is not running",
+        ))
+        .unwrap();
+        assert_eq!(value["code"], "steam_session_offline");
+        assert_eq!(value["messageKey"], "error.steamSessionOffline");
+        assert_eq!(value["detail"], "Steam is not running");
+    }
+
+    #[test]
+    fn invalid_client_extraction_error_is_not_an_os_bad_image_dialog() {
+        let value = serde_json::to_value(CommandError::steam_session(
+            "error.extractFailed",
+            Some("steam_client_invalid"),
+            "Native DLL was rejected before loading",
+        ))
+        .unwrap();
+        assert_eq!(value["code"], "steam_client_invalid");
+        assert_eq!(value["messageKey"], "error.steamClientInvalid");
     }
 
     #[test]

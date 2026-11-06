@@ -137,6 +137,8 @@ struct ExtractResponse {
     session: Option<CurrentSteamSession>,
     extraction: Option<CurrentSessionExtraction>,
     exported: Option<CurrentSessionExport>,
+    #[serde(default)]
+    error_code: Option<String>,
     error: Option<String>,
 }
 
@@ -151,6 +153,7 @@ fn root_path(path: Option<&Path>) -> Result<PathBuf> {
                 .path,
         )
     };
+    let root = crate::kernel_manage::absolute_local_path(&root, "Steam directory")?;
     let root = root
         .canonicalize()
         .context("Steam directory is unavailable")?;
@@ -290,9 +293,14 @@ impl Drop for IpcFiles {
     }
 }
 fn invoke(exe: &Path, cache: &Path, request: ExtractRequest) -> Result<ExtractResponse> {
+    // Reject an absent/unverified client before worker/cache creation. A client
+    // DLL is not a replacement for a running Steam process.
+    crate::steam_native::ensure_session_running(&request.steam_path)?;
     let _lock = EXTRACT_LOCK
         .lock()
         .map_err(|_| anyhow::anyhow!("Extraction worker lock is poisoned"))?;
+    // A previous extraction can hold the lock while Steam exits.
+    crate::steam_native::ensure_session_running(&request.steam_path)?;
     fs::create_dir_all(cache)?;
     let stamp = SystemTime::now().duration_since(UNIX_EPOCH)?.as_nanos();
     let files = IpcFiles(cache.join(format!(
@@ -325,6 +333,7 @@ fn invoke(exe: &Path, cache: &Path, request: ExtractRequest) -> Result<ExtractRe
         use std::os::windows::process::CommandExt;
         command.creation_flags(0x08000000);
     }
+    crate::steam_native::ensure_session_running(&request.steam_path)?;
     let mut child = command
         .spawn()
         .context("Could not start current Steam session worker")?;
@@ -352,8 +361,20 @@ fn invoke(exe: &Path, cache: &Path, request: ExtractRequest) -> Result<ExtractRe
         thread::sleep(Duration::from_millis(25));
     }
     // This response may contain the explicitly requested Lua; never log it.
-    serde_json::from_slice(&bounded_read(&output, MAX_IPC_BYTES)?)
-        .context("Invalid extraction worker response")
+    let response: ExtractResponse = serde_json::from_slice(&bounded_read(&output, MAX_IPC_BYTES)?)
+        .context("Invalid extraction worker response")?;
+    if response.error_code.is_some() {
+        return Err(extract_response_error(response.error_code, response.error));
+    }
+    Ok(response)
+}
+
+fn extract_response_error(code: Option<String>, detail: Option<String>) -> anyhow::Error {
+    let detail = detail.unwrap_or_else(|| "Current Steam session worker returned no result".into());
+    if let Some(code) = code {
+        return crate::achievements::steam_session_error_from_code(&code, detail);
+    }
+    anyhow::anyhow!(detail)
 }
 pub fn run_extract_worker(input: &Path, output: &Path) -> Result<()> {
     let request: ExtractRequest = serde_json::from_slice(&bounded_read(input, MAX_IPC_BYTES)?)?;
@@ -364,6 +385,7 @@ pub fn run_extract_worker(input: &Path, output: &Path) -> Result<()> {
         session: None,
         extraction: None,
         exported: None,
+        error_code: crate::achievements::steam_session_error_code(&error).map(str::to_owned),
         error: Some(error.to_string()),
     });
     let mut file = OpenOptions::new()
@@ -442,15 +464,22 @@ fn inspect_session<L: LiveSession>(
 }
 fn execute(request: &ExtractRequest) -> Result<ExtractResponse> {
     let root = root_path(Some(&request.steam_path))?;
+    // Direct worker invocations and Steam exiting after the caller's preflight
+    // must remain guarded before any native library selection/loading.
+    crate::steam_native::ensure_session_running(&root)?;
     #[cfg(all(windows, target_pointer_width = "64"))]
     {
         let live = match native::Session::connect(&root) {
             Ok(live) => live,
+            Err(error) if crate::achievements::steam_session_error_code(&error).is_some() => {
+                return Err(error)
+            }
             Err(error) if request.app_id.is_none() => {
                 return Ok(ExtractResponse {
                     session: Some(disconnected(&root, error.to_string())),
                     extraction: None,
                     exported: None,
+                    error_code: None,
                     error: None,
                 })
             }
@@ -470,6 +499,7 @@ fn execute(request: &ExtractRequest) -> Result<ExtractResponse> {
                     session: None,
                     extraction: None,
                     exported: Some(exported),
+                    error_code: None,
                     error: None,
                 });
             }
@@ -477,6 +507,7 @@ fn execute(request: &ExtractRequest) -> Result<ExtractResponse> {
                 session: None,
                 extraction: Some(extraction),
                 exported: None,
+                error_code: None,
                 error: None,
             });
         }
@@ -484,6 +515,7 @@ fn execute(request: &ExtractRequest) -> Result<ExtractResponse> {
             session: Some(session),
             extraction: None,
             exported: None,
+            error_code: None,
             error: None,
         })
     }
@@ -496,6 +528,7 @@ fn execute(request: &ExtractRequest) -> Result<ExtractResponse> {
             )),
             extraction: None,
             exported: None,
+            error_code: None,
             error: None,
         })
     }
@@ -898,22 +931,18 @@ mod native {
     impl Session {
         pub(super) fn connect(root: &Path) -> Result<Self> {
             unsafe {
-                let path = [
-                    root.join("steamclient64.dll"),
-                    root.join("bin").join("steamclient64.dll"),
-                ]
-                .into_iter()
-                .find(|path| path.is_file())
-                .context("steamclient64.dll was not found")?;
-                safe_resource(root, &path)?;
+                let path = crate::steam_native::prepare_client_library(root)?;
                 let wide: Vec<_> = path.as_os_str().encode_wide().chain(Some(0)).collect();
-                let handle = LoadLibraryExW(wide.as_ptr(), ptr::null_mut(), 8);
-                if handle.is_null() {
-                    bail!(
-                        "Steam client DLL load failed: {}",
-                        std::io::Error::last_os_error()
-                    );
-                }
+                let handle = crate::steam_native::with_suppressed_loader_errors(|| {
+                    let handle = LoadLibraryExW(wide.as_ptr(), ptr::null_mut(), 8);
+                    if handle.is_null() {
+                        bail!(
+                            "Steam client DLL load failed: {}",
+                            std::io::Error::last_os_error()
+                        );
+                    }
+                    Ok(handle)
+                })?;
                 let module = Module(handle);
                 let get_callback_address = GetProcAddress(handle, c"Steam_BGetCallback".as_ptr());
                 let free_callback_address =
@@ -1055,6 +1084,105 @@ mod native {
 mod tests {
     use super::*;
     use std::cell::Cell;
+
+    #[test]
+    fn stopped_steam_is_rejected_before_worker_spawn_or_cache_creation() {
+        let temp = tempfile::tempdir().unwrap();
+        let steam = temp.path().join("Steam");
+        fs::create_dir(&steam).unwrap();
+        fs::write(
+            steam.join("steam.exe"),
+            b"Not executable: Steam client fixture",
+        )
+        .unwrap();
+        fs::write(steam.join("steamclient64.dll"), b"Invalid library fixture").unwrap();
+        let cache = temp.path().join("worker-cache");
+        let error = current_steam_session(
+            &temp.path().join("worker-that-must-not-start.exe"),
+            &cache,
+            Some(&steam),
+        )
+        .unwrap_err();
+        assert_eq!(
+            crate::achievements::steam_session_error_code(&error),
+            Some("steam_session_offline")
+        );
+        assert!(
+            !cache.exists(),
+            "A stopped client must not create worker files or start a process"
+        );
+    }
+
+    #[test]
+    fn stopped_direct_worker_returns_offline_code_without_loading_placeholder_dll() {
+        let temp = tempfile::tempdir().unwrap();
+        let steam = temp.path().join("Steam");
+        fs::create_dir(&steam).unwrap();
+        fs::write(
+            steam.join("steam.exe"),
+            b"Not executable: Steam client fixture",
+        )
+        .unwrap();
+        fs::write(steam.join("steamclient64.dll"), b"Invalid library fixture").unwrap();
+        let input = temp.path().join("request.json");
+        let output = temp.path().join("response.json");
+        fs::write(
+            &input,
+            serde_json::to_vec(&ExtractRequest {
+                steam_path: steam,
+                app_id: None,
+                locale: "en".into(),
+                expected_account_fingerprint: None,
+                destination_directory: None,
+            })
+            .unwrap(),
+        )
+        .unwrap();
+        run_extract_worker(&input, &output).unwrap();
+        let response: ExtractResponse = serde_json::from_slice(&fs::read(output).unwrap()).unwrap();
+        assert_eq!(
+            response.error_code.as_deref(),
+            Some("steam_session_offline")
+        );
+        assert!(response.session.is_none());
+        assert!(response.extraction.is_none());
+        let error = extract_response_error(response.error_code, response.error);
+        assert_eq!(
+            crate::achievements::steam_session_error_code(&error),
+            Some("steam_session_offline")
+        );
+    }
+
+    #[test]
+    fn extraction_worker_errors_retain_structured_session_codes() {
+        for code in [
+            "steam_session_offline",
+            "steam_session_signed_out",
+            "steam_session_identity_changed",
+            "steam_session_startup_timeout",
+            "steam_client_invalid",
+        ] {
+            let encoded = serde_json::to_vec(&ExtractResponse {
+                session: None,
+                extraction: None,
+                exported: None,
+                error_code: Some(code.into()),
+                error: Some(format!("{code}: Fixture reason")),
+            })
+            .unwrap();
+            let decoded: ExtractResponse = serde_json::from_slice(&encoded).unwrap();
+            let error = extract_response_error(decoded.error_code, decoded.error);
+            assert_eq!(
+                crate::achievements::steam_session_error_code(&error),
+                Some(code)
+            );
+        }
+        let legacy: ExtractResponse = serde_json::from_str(
+            r#"{"session":null,"extraction":null,"exported":null,"error":"Legacy reason"}"#,
+        )
+        .unwrap();
+        assert!(legacy.error_code.is_none());
+    }
     struct FakeSession {
         id: Cell<u64>,
         subscribed: bool,

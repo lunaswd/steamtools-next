@@ -652,7 +652,7 @@
   "catalog.partialDetails": "Не завершено депо/DLC: {count}. Повторите позже. ID: {ids}",
   "common.moreOptions": "Другие параметры",
   "achievements.operationNotes": "Указания по действиям",
-  "error.steamSessionOffline": "Steam не в сети. Восстановите соединение и обновите данные перед изменениями.",
+  "error.steamSessionOffline": "Steam не запущен или находится в автономном режиме. Запустите Steam, войдите в аккаунт и обновите или повторно подключите сеанс.",
   "error.steamSessionSignedOut": "Вход в Steam не выполнен. Войдите в клиент и обновите данные.",
   "error.steamSessionChanged": "Аккаунт Steam изменился. Старые состояния очищены; обновите данные.",
   "error.steamSessionStarting": "Сеанс Steam ещё инициализируется. Обновите данные чуть позже.",
@@ -722,5 +722,6 @@
   "updates.updateRestart": "Обновить и перезапустить",
   "updates.later": "Позже",
   "updates.lastChecked": "Последняя проверка",
-  "updates.notChecked": "Не проверено"
+  "updates.notChecked": "Не проверено",
+  "error.steamClientInvalid": "Файлы клиента Steam недействительны или повреждены. Выберите настоящую папку Steam и восстановите или переустановите клиент."
 }

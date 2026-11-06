@@ -18,3 +18,6 @@
 .extraction-cache-section>summary{list-style-position:inside}
 .extraction-cache-section[open]>summary{margin-bottom:16px}
 @media(max-width:950px){.current-session-controls{grid-template-columns:1fr auto}.current-session-controls select{grid-column:1/-1}}
+
+.current-session-unavailable{margin-top:14px;display:block}
+.current-session-unavailable .failure-message{margin:0}

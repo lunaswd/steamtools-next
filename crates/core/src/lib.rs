@@ -15,6 +15,7 @@ pub mod report;
 pub mod settings;
 pub mod steam;
 pub mod steam_accounts;
+pub(crate) mod steam_native;
 pub mod tool_update;
 pub mod vdf;
 

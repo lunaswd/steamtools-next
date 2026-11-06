@@ -652,7 +652,7 @@
   "catalog.partialDetails": "{count} dépôts/DLC sont incomplets. Réessayez plus tard. ID : {ids}",
   "common.moreOptions": "Plus d’options",
   "achievements.operationNotes": "Consignes d’utilisation",
-  "error.steamSessionOffline": "Steam est hors ligne. Rétablissez la connexion et actualisez avant toute modification.",
+  "error.steamSessionOffline": "Steam est arrêté ou hors ligne. Démarrez Steam, connectez-vous, puis actualisez ou reconnectez la session.",
   "error.steamSessionSignedOut": "Steam n’est pas connecté à un compte. Connectez-vous dans le client et actualisez.",
   "error.steamSessionChanged": "Le compte Steam a changé. Les anciens états ont été effacés ; actualisez.",
   "error.steamSessionStarting": "La session Steam est encore en cours d’initialisation. Actualisez dans un instant.",
@@ -722,5 +722,6 @@
   "updates.updateRestart": "Mettre à jour et redémarrer",
   "updates.later": "Plus tard",
   "updates.lastChecked": "Dernière vérification",
-  "updates.notChecked": "Non vérifié"
+  "updates.notChecked": "Non vérifié",
+  "error.steamClientInvalid": "Les fichiers du client Steam sont invalides ou endommagés. Sélectionnez le véritable dossier Steam et réparez ou réinstallez le client."
 }

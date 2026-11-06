@@ -652,7 +652,7 @@
   "catalog.partialDetails": "{count} depot/DLC items are incomplete. Retry when ready. IDs: {ids}",
   "common.moreOptions": "More options",
   "achievements.operationNotes": "Operation notes",
-  "error.steamSessionOffline": "Steam is offline. Restore the connection and refresh before changing achievements.",
+  "error.steamSessionOffline": "Steam is not running or is offline. Start Steam, sign in, then refresh or reconnect.",
   "error.steamSessionSignedOut": "Steam is not signed in. Sign in to the client and refresh.",
   "error.steamSessionChanged": "The Steam account changed. Old states were cleared; refresh before continuing.",
   "error.steamSessionStarting": "The Steam session is still initializing. Refresh shortly.",
@@ -722,5 +722,6 @@
   "updates.updateRestart": "Update and restart",
   "updates.later": "Later",
   "updates.lastChecked": "Last checked",
-  "updates.notChecked": "Not checked"
+  "updates.notChecked": "Not checked",
+  "error.steamClientInvalid": "Steam client files are invalid or damaged. Select the real Steam folder and repair or reinstall the Steam client."
 }

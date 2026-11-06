@@ -652,7 +652,7 @@
   "catalog.partialDetails": "{count} depósitos/DLC están incompletos. Reintenta más tarde. ID: {ids}",
   "common.moreOptions": "Más opciones",
   "achievements.operationNotes": "Notas de operación",
-  "error.steamSessionOffline": "Steam está sin conexión. Restablece la conexión y actualiza antes de modificar logros.",
+  "error.steamSessionOffline": "Steam no está en ejecución o está sin conexión. Inicia Steam, inicia sesión y actualiza o vuelve a conectar.",
   "error.steamSessionSignedOut": "No hay sesión iniciada en Steam. Inicia sesión en el cliente y actualiza.",
   "error.steamSessionChanged": "La cuenta de Steam cambió. Se borraron los estados anteriores; actualiza.",
   "error.steamSessionStarting": "La sesión de Steam aún se está iniciando. Actualiza en un momento.",
@@ -722,5 +722,6 @@
   "updates.updateRestart": "Actualizar y reiniciar",
   "updates.later": "Más tarde",
   "updates.lastChecked": "Última comprobación",
-  "updates.notChecked": "Sin comprobar"
+  "updates.notChecked": "Sin comprobar",
+  "error.steamClientInvalid": "Los archivos del cliente Steam no son válidos o están dañados. Selecciona la carpeta real de Steam y repara o reinstala el cliente."
 }

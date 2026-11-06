@@ -652,7 +652,7 @@
   "catalog.partialDetails": "디포 또는 DLC {count}개가 미완료입니다. 나중에 다시 시도하세요. ID: {ids}",
   "common.moreOptions": "추가 옵션",
   "achievements.operationNotes": "작업 안내",
-  "error.steamSessionOffline": "Steam이 오프라인입니다. 연결을 복구하고 새로 고침한 뒤 작업하세요.",
+  "error.steamSessionOffline": "Steam이 실행되지 않았거나 오프라인입니다. Steam을 실행하고 로그인한 다음 새로고침하거나 다시 연결하세요.",
   "error.steamSessionSignedOut": "Steam에 로그인되어 있지 않습니다. 클라이언트에 로그인하고 새로 고침하세요.",
   "error.steamSessionChanged": "Steam 계정이 변경되어 이전 상태를 지웠습니다. 새로 고침하세요.",
   "error.steamSessionStarting": "Steam 세션을 초기화하는 중입니다. 잠시 후 새로 고침하세요.",
@@ -722,5 +722,6 @@
   "updates.updateRestart": "업데이트 후 재시작",
   "updates.later": "나중에",
   "updates.lastChecked": "마지막 확인",
-  "updates.notChecked": "확인하지 않음"
+  "updates.notChecked": "확인하지 않음",
+  "error.steamClientInvalid": "Steam 클라이언트 파일이 잘못되었거나 손상되었습니다. 실제 Steam 설치 폴더를 선택하고 클라이언트를 복구하거나 다시 설치하세요."
 }

@@ -652,7 +652,7 @@
   "catalog.partialDetails": "デポまたは DLC {count} 件が未取得です。後で再試行してください。ID: {ids}",
   "common.moreOptions": "その他のオプション",
   "achievements.operationNotes": "操作の説明",
-  "error.steamSessionOffline": "Steam はオフラインです。接続を復旧して更新してから操作してください。",
+  "error.steamSessionOffline": "Steam が起動していないか、オフラインです。Steam を起動してサインインし、更新または再接続してください。",
   "error.steamSessionSignedOut": "Steam にサインインしていません。クライアントでサインインして更新してください。",
   "error.steamSessionChanged": "Steam アカウントが変わりました。以前の状態をクリアしました。更新してください。",
   "error.steamSessionStarting": "Steam セッションの初期化中です。しばらくしてから更新してください。",
@@ -722,5 +722,6 @@
   "updates.updateRestart": "更新して再起動",
   "updates.later": "後で",
   "updates.lastChecked": "前回の確認",
-  "updates.notChecked": "未確認"
+  "updates.notChecked": "未確認",
+  "error.steamClientInvalid": "Steam クライアントのファイルが無効または破損しています。実際の Steam フォルダーを選び、クライアントを修復または再インストールしてください。"
 }

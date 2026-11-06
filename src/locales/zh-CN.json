@@ -652,7 +652,7 @@
   "catalog.partialDetails": "有 {count} 个仓库或 DLC 未就绪，可稍后重试补齐。ID：{ids}",
   "common.moreOptions": "更多选项",
   "achievements.operationNotes": "操作说明",
-  "error.steamSessionOffline": "Steam 当前离线，请恢复连接并刷新状态后操作。",
+  "error.steamSessionOffline": "Steam 未运行或当前离线。请启动 Steam 并登录，然后刷新或重新连接当前会话。",
   "error.steamSessionSignedOut": "Steam 当前未登录，请登录客户端并刷新状态。",
   "error.steamSessionChanged": "Steam 账号发生变化，已清除旧状态，请刷新后操作。",
   "error.steamSessionStarting": "Steam 会话尚未完成初始化，请稍后刷新。",
@@ -722,5 +722,6 @@
   "updates.updateRestart": "一键更新并重启",
   "updates.later": "稍后",
   "updates.lastChecked": "最近检查",
-  "updates.notChecked": "尚未检查"
+  "updates.notChecked": "尚未检查",
+  "error.steamClientInvalid": "Steam 客户端文件无效或损坏。请确认真实的 Steam 安装目录，并修复或重新安装 Steam 客户端。"
 }

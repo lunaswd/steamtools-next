@@ -652,7 +652,7 @@
   "catalog.partialDetails": "{count} Depot-/DLC-Einträge sind unvollständig. Später erneut versuchen. IDs: {ids}",
   "common.moreOptions": "Weitere Optionen",
   "achievements.operationNotes": "Bedienhinweise",
-  "error.steamSessionOffline": "Steam ist offline. Verbindung wiederherstellen und vor Änderungen aktualisieren.",
+  "error.steamSessionOffline": "Steam läuft nicht oder ist offline. Starte Steam, melde dich an und aktualisiere oder verbinde die Sitzung erneut.",
   "error.steamSessionSignedOut": "Steam ist nicht angemeldet. Im Client anmelden und aktualisieren.",
   "error.steamSessionChanged": "Das Steam-Konto hat sich geändert. Alte Zustände wurden gelöscht; bitte aktualisieren.",
   "error.steamSessionStarting": "Die Steam-Sitzung wird noch initialisiert. Bitte gleich aktualisieren.",
@@ -722,5 +722,6 @@
   "updates.updateRestart": "Aktualisieren und neu starten",
   "updates.later": "Später",
   "updates.lastChecked": "Zuletzt geprüft",
-  "updates.notChecked": "Nicht geprüft"
+  "updates.notChecked": "Nicht geprüft",
+  "error.steamClientInvalid": "Die Steam-Clientdateien sind ungültig oder beschädigt. Wähle den tatsächlichen Steam-Ordner und repariere oder installiere den Client neu."
 }
