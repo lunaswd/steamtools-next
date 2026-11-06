@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { dictionaries, formatBytes, formatDate, formatNumber, getLocale, locales, localizedMessage, resolveLocale, setLocale, t } from './i18n';
 import kernelSource from '../crates/core/src/kernel.rs?raw';
-import diagnosticMessageCatalog from '../../../docs/DIAGNOSTIC_MESSAGE_KEYS.json';
+import diagnosticMessageCatalog from './diagnostic-message-catalog';
 
 afterEach(() => { setLocale('en'); vi.unstubAllGlobals(); });
 
