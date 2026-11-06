@@ -1,0 +1,37 @@
+//! Shared Steam workspace, Lua library, and OpenSteamTool management services.
+pub mod achievements;
+pub mod archive_import;
+pub mod catalog;
+pub mod covers;
+pub mod extract;
+pub mod i18n;
+pub mod kernel;
+pub mod kernel_manage;
+pub mod kernel_release;
+pub mod library;
+pub mod manifest;
+pub mod remote_repository;
+pub mod report;
+pub mod settings;
+pub mod steam;
+pub mod steam_accounts;
+pub mod tool_update;
+pub mod vdf;
+
+pub use achievements::*;
+pub use archive_import::*;
+pub use catalog::*;
+pub use covers::*;
+pub use extract::*;
+pub use i18n::*;
+pub use kernel::*;
+pub use kernel_manage::*;
+pub use kernel_release::*;
+pub use library::*;
+pub use manifest::*;
+pub use remote_repository::*;
+pub use report::*;
+pub use settings::*;
+pub use steam::*;
+pub use steam_accounts::*;
+pub use tool_update::*;

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-delete-lua-entry-command"
+description = "Enables the delete_lua_entry_command command without any pre-configured scope."
+commands.allow = ["delete_lua_entry_command"]
+
+[[permission]]
+identifier = "deny-delete-lua-entry-command"
+description = "Denies the delete_lua_entry_command command without any pre-configured scope."
+commands.deny = ["delete_lua_entry_command"]

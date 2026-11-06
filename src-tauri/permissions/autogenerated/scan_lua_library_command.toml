@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-scan-lua-library-command"
+description = "Enables the scan_lua_library_command command without any pre-configured scope."
+commands.allow = ["scan_lua_library_command"]
+
+[[permission]]
+identifier = "deny-scan-lua-library-command"
+description = "Denies the scan_lua_library_command command without any pre-configured scope."
+commands.deny = ["scan_lua_library_command"]

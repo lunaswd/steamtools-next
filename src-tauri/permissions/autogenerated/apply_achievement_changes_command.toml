@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-apply-achievement-changes-command"
+description = "Enables the apply_achievement_changes_command command without any pre-configured scope."
+commands.allow = ["apply_achievement_changes_command"]
+
+[[permission]]
+identifier = "deny-apply-achievement-changes-command"
+description = "Denies the apply_achievement_changes_command command without any pre-configured scope."
+commands.deny = ["apply_achievement_changes_command"]

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-detect-kernel-installation-command"
+description = "Enables the detect_kernel_installation_command command without any pre-configured scope."
+commands.allow = ["detect_kernel_installation_command"]
+
+[[permission]]
+identifier = "deny-detect-kernel-installation-command"
+description = "Denies the detect_kernel_installation_command command without any pre-configured scope."
+commands.deny = ["detect_kernel_installation_command"]

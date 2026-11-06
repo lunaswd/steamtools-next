@@ -1,0 +1,6 @@
+.catalog-cover img,.catalog-cover .cover-monogram{grid-area:1/1}
+.catalog-cover .cover-monogram{display:none;font-weight:700;color:var(--accent-text)}
+.catalog-cover.missing img{display:none}
+.catalog-cover.missing .cover-monogram{display:block}
+.achievement-row:not(.is-unlocked) .achievement-item-icon img{filter:grayscale(1)}
+.achievement-item-icon img{object-fit:contain}

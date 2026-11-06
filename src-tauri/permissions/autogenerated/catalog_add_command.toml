@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-catalog-add-command"
+description = "Enables the catalog_add_command command without any pre-configured scope."
+commands.allow = ["catalog_add_command"]
+
+[[permission]]
+identifier = "deny-catalog-add-command"
+description = "Denies the catalog_add_command command without any pre-configured scope."
+commands.deny = ["catalog_add_command"]

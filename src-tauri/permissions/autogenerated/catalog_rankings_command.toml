@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-catalog-rankings-command"
+description = "Enables the catalog_rankings_command command without any pre-configured scope."
+commands.allow = ["catalog_rankings_command"]
+
+[[permission]]
+identifier = "deny-catalog-rankings-command"
+description = "Denies the catalog_rankings_command command without any pre-configured scope."
+commands.deny = ["catalog_rankings_command"]

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-add-lua-entry-command"
+description = "Enables the add_lua_entry_command command without any pre-configured scope."
+commands.allow = ["add_lua_entry_command"]
+
+[[permission]]
+identifier = "deny-add-lua-entry-command"
+description = "Denies the add_lua_entry_command command without any pre-configured scope."
+commands.deny = ["add_lua_entry_command"]

@@ -1,0 +1,28 @@
+{
+  "name": "steam-tools-next",
+  "private": true,
+  "version": "0.3.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "npm run audit:acl && tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "npm run test:acl && vitest run src",
+    "tauri": "tauri",
+    "desktop:dev": "tauri dev",
+    "desktop:build": "tauri build --no-bundle",
+    "audit:acl": "node scripts/audit-command-acl.mjs",
+    "test:acl": "node --test scripts/audit-command-acl.test.mjs"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-dialog": "^2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "happy-dom": "^21.0.4",
+    "typescript": "^5.9",
+    "vite": "^8.3.5",
+    "vitest": "^5.1.0"
+  }
+}

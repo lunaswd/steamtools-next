@@ -1,0 +1,119 @@
+name: Build and publish latest Windows tool
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tool-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.event_name != 'pull_request'
+    runs-on: windows-2022
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    env:
+      CARGO_INCREMENTAL: '0'
+      CARGO_PROFILE_DEV_DEBUG: '0'
+      CARGO_PROFILE_TEST_DEBUG: '0'
+      CARGO_BUILD_JOBS: '3'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Audit the public source boundary
+        run: python scripts/audit_public_source.py
+      - name: Prepare version-bound release sources
+        id: version
+        run: python scripts/release_version.py --kind tool
+      - name: Normalize paths embedded in build output
+        shell: pwsh
+        run: |
+          $flags = @("--remap-path-prefix=$env:GITHUB_WORKSPACE=/source", "--remap-path-prefix=$HOME=/build-home", "--remap-path-prefix=$env:USERPROFILE=/build-home")
+          "CARGO_ENCODED_RUSTFLAGS=$([string]::Join([char]31, $flags))" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+      - name: Install locked frontend dependencies
+        run: npm ci
+      - name: Validate publication tooling
+        run: python -m unittest discover -s scripts -p 'test_*.py' -v
+      - name: Validate frontend contracts
+        run: npm test
+      - name: Test Rust and real IPC contracts
+        run: cargo test --workspace --locked
+      - name: Enforce strict Rust lint checks
+        run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - name: Build Windows x64 desktop executable
+        run: npm run desktop:build
+      - name: Reject private material embedded in the executable
+        run: python scripts/audit_public_source.py --binary target/release/steam-tools-next.exe --private-path "$env:GITHUB_WORKSPACE" --private-path "$env:USERPROFILE"
+      - name: Bind executable hash and PE version to release source
+        shell: pwsh
+        run: |
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $binary = Get-Item -LiteralPath 'target/release/steam-tools-next.exe'
+          if ($binary.VersionInfo.ProductVersion -ne $version) { throw 'Executable version does not match release sources' }
+          $record = [ordered]@{ schemaVersion=1; version=$version; platform='windows-x64'; sourceCommit=((& git rev-parse HEAD).Trim()); exeSha256=((Get-FileHash -LiteralPath $binary.FullName -Algorithm SHA256).Hash.ToLowerInvariant()) }
+          $record | ConvertTo-Json | Set-Content -LiteralPath 'target/release/tool-build.json' -Encoding utf8
+      - name: Package only tool files and corresponding sources
+        env:
+          RELEASE_TAG: ${{ steps.version.outputs.releaseTag }}
+        run: python scripts/package_release.py --release-tag "$env:RELEASE_TAG"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tool-release-${{ steps.version.outputs.version }}
+          path: release-assets/*
+          if-no-files-found: error
+      - name: Push only the release source tag
+        env:
+          RELEASE_TAG: ${{ steps.version.outputs.releaseTag }}
+        run: git push origin "refs/tags/$env:RELEASE_TAG"
+      - name: Publish complete verified release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/publish_release.py --kind tool --directory release-assets
+  pull-request-checks:
+    if: github.event_name == 'pull_request'
+    runs-on: windows-2022
+    timeout-minutes: 45
+    env:
+      CARGO_INCREMENTAL: '0'
+      CARGO_PROFILE_DEV_DEBUG: '0'
+      CARGO_PROFILE_TEST_DEBUG: '0'
+      CARGO_BUILD_JOBS: '3'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: dtolnay/rust-toolchain@stable
+      - run: npm ci
+      - run: python scripts/audit_public_source.py
+      - run: python -m unittest discover -s scripts -p 'test_*.py' -v
+      - run: npm test
+      - run: cargo test --workspace --locked
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings

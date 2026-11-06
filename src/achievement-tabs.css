@@ -1,0 +1,45 @@
+.achievement-browser{display:flex;flex-direction:column;min-height:360px;min-width:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.achievement-browser-tabs{display:flex;align-items:stretch;gap:3px;flex:none;min-height:45px;padding:5px 6px 0;overflow-x:auto;scrollbar-width:thin;background:var(--surface-raised);border-bottom:1px solid var(--line)}
+.achievement-browser-tab{display:flex;align-items:center;gap:8px;min-width:0;padding:10px 13px;border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;cursor:pointer;white-space:nowrap;text-align:left}
+.achievement-browser-tab>.icon,.achievement-tab-status .icon{width:15px;height:15px;flex:none}
+.achievement-browser-tab>[data-game-name]{overflow:hidden;text-overflow:ellipsis;max-width:185px}
+.achievement-browser-tab small{font-size:10px;color:var(--faint);flex:none}
+.achievement-tab-wrap{display:flex;align-items:center;flex:none;border:1px solid transparent;border-bottom:0;border-radius:8px 8px 0 0;max-width:285px}
+.achievement-tab-wrap:hover,.achievement-browser-tab.library-tab:hover{background:var(--surface)}
+.achievement-tab-wrap.active,.achievement-browser-tab.library-tab.active{background:var(--surface);border-color:var(--line);box-shadow:inset 0 2px var(--accent);color:var(--accent-text)}
+.achievement-tab-wrap.active .achievement-browser-tab{color:var(--text)}
+.achievement-browser-tab.library-tab{flex:none;border:1px solid transparent;border-bottom:0;border-radius:8px 8px 0 0}
+.achievement-tab-close{display:grid;place-items:center;flex:none;width:26px;height:26px;margin-right:7px;padding:3px;border:0;border-radius:5px;background:transparent;color:var(--muted);cursor:pointer}
+.achievement-tab-close .icon{width:13px;height:13px}
+.achievement-tab-close:hover{background:var(--red-bg);color:var(--red)}
+.achievement-tab-close:disabled{opacity:.3;cursor:wait}
+.achievement-browser-tab:focus-visible,.achievement-tab-close:focus-visible,.achievement-tab-scroll:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
+.achievement-tab-status{display:grid;place-items:center;width:15px;height:15px;flex:none}
+.achievement-tab-status .spinner{width:13px;height:13px;margin:0}
+.achievement-browser .achievement-tab-panel{display:flex;flex-direction:column;flex:1;min-height:0;min-width:0;outline:none}
+.achievement-browser .achievement-workspace{padding:0;border:0;border-radius:0;margin:0;box-shadow:none}
+.achievement-workspace-chrome{flex:none;padding:16px 18px 13px;border-bottom:1px solid var(--line);max-height:62%;overflow:auto;background:var(--surface)}
+.achievement-workspace-chrome .achievement-selected-header{gap:13px}
+.achievement-workspace-chrome .achievement-selected-header>.lua-card-cover{width:100px}
+.achievement-workspace-chrome .achievement-selected-header .eyebrow{display:none}
+.achievement-workspace-chrome .achievement-selected-header h2{font-size:18px;margin:0 0 5px}
+.achievement-workspace-chrome .achievement-selected-header p{font-size:12px}
+.achievement-workspace-chrome .achievement-action-grid{margin-top:12px;gap:8px}
+.achievement-workspace-chrome .achievement-action-grid .button{padding:9px 12px;font-size:12px}
+.achievement-workspace-chrome .achievement-action-note{margin-top:9px;padding:8px 10px;font-size:11px;line-height:1.45}
+.achievement-workspace-chrome .achievement-list-toolbar{margin:12px 0 0;gap:8px}
+.achievement-workspace-chrome .achievement-list-toolbar>.search-field{min-width:190px}
+.achievement-workspace-chrome .achievement-inline-error,.achievement-workspace-chrome .achievement-adapter-message{margin-top:9px;padding:8px 10px;max-height:75px;overflow:auto}
+.achievement-tab-scroll{flex:1;min-height:0;min-width:0;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding:14px 18px 18px}
+.achievement-tab-scroll .achievement-row:first-child{margin-top:0}
+.achievement-library-scroll>.surface+.surface{margin-top:18px}
+.achievement-library-scroll .achievement-library{padding:18px}
+.achievement-library-scroll .achievement-history{padding:18px}
+@media(max-width:1050px){.achievement-workspace-chrome .achievement-selected-header>.lua-card-cover{width:82px}.achievement-workspace-chrome .achievement-list-toolbar>.search-field{flex-basis:100%}.achievement-browser-tab>[data-game-name]{max-width:145px}.achievement-workspace-chrome{padding:13px 14px}}
+@media(max-width:720px){.achievement-tab-scroll{padding:10px}.achievement-browser-tab>[data-game-name]{max-width:115px}.achievement-workspace-chrome .achievement-action-grid .button{padding:7px 9px;font-size:11px}.achievement-workspace-chrome .achievement-action-note{display:none}.achievement-workspace-chrome .achievement-selected-header>.lua-card-cover{display:none}}
+
+.achievement-inline-warning{margin-top:9px;padding:10px 12px;background:var(--yellow-bg,var(--surface-raised));border:1px solid color-mix(in srgb,var(--yellow,#d8a544) 40%,var(--line));border-radius:8px;font-size:12px;color:var(--text);max-height:105px;overflow:auto}
+.achievement-inline-warning p{margin:5px 0;color:var(--muted);line-height:1.5}
+.achievement-inline-warning details{margin-top:6px}.achievement-inline-warning summary{cursor:pointer}.achievement-inline-warning pre{margin:7px 0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px}
+
+main:has(.achievement-browser)>.page-footer{margin-top:16px}

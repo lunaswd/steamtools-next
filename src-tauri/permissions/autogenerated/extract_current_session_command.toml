@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-extract-current-session-command"
+description = "Enables the extract_current_session_command command without any pre-configured scope."
+commands.allow = ["extract_current_session_command"]
+
+[[permission]]
+identifier = "deny-extract-current-session-command"
+description = "Denies the extract_current_session_command command without any pre-configured scope."
+commands.deny = ["extract_current_session_command"]

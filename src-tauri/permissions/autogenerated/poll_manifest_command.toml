@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-poll-manifest-command"
+description = "Enables the poll_manifest_command command without any pre-configured scope."
+commands.allow = ["poll_manifest_command"]
+
+[[permission]]
+identifier = "deny-poll-manifest-command"
+description = "Denies the poll_manifest_command command without any pre-configured scope."
+commands.deny = ["poll_manifest_command"]

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-get-environment-command"
+description = "Enables the get_environment_command command without any pre-configured scope."
+commands.allow = ["get_environment_command"]
+
+[[permission]]
+identifier = "deny-get-environment-command"
+description = "Denies the get_environment_command command without any pre-configured scope."
+commands.deny = ["get_environment_command"]

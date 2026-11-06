@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "retrieved_at_utc": "2026-11-04T23:58:58.276473+00:00",
+  "research_date": "2026-11-05",
+  "note": "Previously retrieved exact-version official upstream license texts. collect_licenses.py reads this cache offline and verifies hashes; it does not fetch URLs.",
+  "packages": [
+    {
+      "ecosystem": "cargo",
+      "name": "alloc-stdlib",
+      "version": "0.3.0",
+      "expected_lock_source": "registry+https://github.com/rust-lang/crates.io-index",
+      "expected_lock_checksum": "0b5c1865780388bfa186411ab5f247819487fc4864c6e9c3106611fa347586e1",
+      "license_expression": "BSD-3-Clause",
+      "repository": "https://github.com/dropbox/rust-alloc-no-stdlib",
+      "revision": "0a81fd6928ea3b33c8cd484aa4575d50ffb98012",
+      "evidence": {
+        "basis": "Exact published Cargo archive .cargo_vcs_info.json revision; official repository root license applying to this package.",
+        "package_path_in_repository": "alloc-stdlib",
+        "vcs_info_sha256": "2bfc044805e0e75273a7e4d06c9d72f4e029a6cb926e4645c382bde160ecfd95"
+      },
+      "files": [
+        {
+          "path": "cargo/alloc-stdlib-0.3.0/LICENSE",
+          "filename": "LICENSE",
+          "source_url": "https://raw.githubusercontent.com/dropbox/rust-alloc-no-stdlib/0a81fd6928ea3b33c8cd484aa4575d50ffb98012/LICENSE",
+          "repository_path": "LICENSE",
+          "revision": "0a81fd6928ea3b33c8cd484aa4575d50ffb98012",
+          "sha256": "c0c56f26d9c051cac4d200c34c84e7ae9aaa853e01a982a1df08b09931e518ae",
+          "bytes": 1483
+        }
+      ]
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "tauri-plugin",
+      "version": "2.7.2",
+      "expected_lock_source": "registry+https://github.com/rust-lang/crates.io-index",
+      "expected_lock_checksum": "67fb21a77e8f94e8beb3325e583102488659365af0a3948b7ea244c5b779c291",
+      "license_expression": "Apache-2.0 OR MIT",
+      "repository": "https://github.com/tauri-apps/tauri",
+      "revision": "59b63ab500da9859f12d8888c3298bc29bba0b92",
+      "evidence": {
+        "basis": "Exact published Cargo archive .cargo_vcs_info.json revision; official repository root license applying to this package.",
+        "package_path_in_repository": "crates/tauri-plugin",
+        "vcs_info_sha256": "91a4a696cdb5667e1655da9e50d18cb193bc15bf97d51b53cd8e4f5c52692a9c"
+      },
+      "files": [
+        {
+          "path": "cargo/tauri-plugin-2.7.2/LICENSE-APACHE-2.0",
+          "filename": "LICENSE-APACHE-2.0",
+          "source_url": "https://raw.githubusercontent.com/tauri-apps/tauri/59b63ab500da9859f12d8888c3298bc29bba0b92/LICENSE-APACHE-2.0",
+          "repository_path": "LICENSE-APACHE-2.0",
+          "revision": "59b63ab500da9859f12d8888c3298bc29bba0b92",
+          "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+          "bytes": 10174
+        },
+        {
+          "path": "cargo/tauri-plugin-2.7.2/LICENSE-MIT",
+          "filename": "LICENSE-MIT",
+          "source_url": "https://raw.githubusercontent.com/tauri-apps/tauri/59b63ab500da9859f12d8888c3298bc29bba0b92/LICENSE-MIT",
+          "repository_path": "LICENSE-MIT",
+          "revision": "59b63ab500da9859f12d8888c3298bc29bba0b92",
+          "sha256": "9dd42ea92cff2ede5cd477cbfcce051b2d0115c0ac7f368ee88cb545055dff1d",
+          "bytes": 1090
+        }
+      ]
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "webview2-com",
+      "version": "0.39.1",
+      "expected_lock_source": "registry+https://github.com/rust-lang/crates.io-index",
+      "expected_lock_checksum": "3f89fca7a704cee10dcb3654c1dbb8941d1783132f1917358af75bec37a7d7e6",
+      "license_expression": "MIT",
+      "repository": "https://github.com/wravery/webview2-rs",
+      "revision": "edc2caf886175ccaebe86078c9cfe1ae2a187328",
+      "evidence": {
+        "basis": "Exact published Cargo archive .cargo_vcs_info.json revision; official repository root license applying to this package.",
+        "package_path_in_repository": "crates/webview2-com",
+        "vcs_info_sha256": "88413f4e9de3a9360fafb0d8c9a0fdf5a01a45d73f9ded314fa7b9ffa2108ace"
+      },
+      "files": [
+        {
+          "path": "cargo/webview2-com-0.39.1/LICENSE",
+          "filename": "LICENSE",
+          "source_url": "https://raw.githubusercontent.com/wravery/webview2-rs/edc2caf886175ccaebe86078c9cfe1ae2a187328/LICENSE",
+          "repository_path": "LICENSE",
+          "revision": "edc2caf886175ccaebe86078c9cfe1ae2a187328",
+          "sha256": "0dcf41516e608bbcb6cdc5229feb7b86fe4a643b85e7df251133c93408fdac73",
+          "bytes": 1067
+        }
+      ]
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "webview2-com-macros",
+      "version": "0.8.1",
+      "expected_lock_source": "registry+https://github.com/rust-lang/crates.io-index",
+      "expected_lock_checksum": "67a921c1b6914c367b2b823cd4cde6f96beec77d30a939c8199bb377cf9b9b54",
+      "license_expression": "MIT",
+      "repository": "https://github.com/wravery/webview2-rs",
+      "revision": "dffa41a8a46d3f5565eefbff2de57d38d399f158",
+      "evidence": {
+        "basis": "Exact published Cargo archive .cargo_vcs_info.json revision; official repository root license applying to this package.",
+        "package_path_in_repository": "crates/callback-macros",
+        "vcs_info_sha256": "c24c2646f52e6cb4c1f382afc69fa99c0dc78d6d8e4316ade7e51707b4f9af8e"
+      },
+      "files": [
+        {
+          "path": "cargo/webview2-com-macros-0.8.1/LICENSE",
+          "filename": "LICENSE",
+          "source_url": "https://raw.githubusercontent.com/wravery/webview2-rs/dffa41a8a46d3f5565eefbff2de57d38d399f158/LICENSE",
+          "repository_path": "LICENSE",
+          "revision": "dffa41a8a46d3f5565eefbff2de57d38d399f158",
+          "sha256": "0dcf41516e608bbcb6cdc5229feb7b86fe4a643b85e7df251133c93408fdac73",
+          "bytes": 1067
+        }
+      ]
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "webview2-com-sys",
+      "version": "0.39.1",
+      "expected_lock_source": "registry+https://github.com/rust-lang/crates.io-index",
+      "expected_lock_checksum": "b3a07132775117d6065853d9d1178157b8c90e228de47129d6bce2c7edebedfb",
+      "license_expression": "MIT",
+      "repository": "https://github.com/wravery/webview2-rs",
+      "revision": "edc2caf886175ccaebe86078c9cfe1ae2a187328",
+      "evidence": {
+        "basis": "Exact published Cargo archive .cargo_vcs_info.json revision; official repository root license applying to this package.",
+        "package_path_in_repository": "crates/bindings",
+        "vcs_info_sha256": "d4137410068017c3f66fe98578f2fd40f0e76d3fd628fa361c758f3b262351c7"
+      },
+      "files": [
+        {
+          "path": "cargo/webview2-com-sys-0.39.1/LICENSE",
+          "filename": "LICENSE",
+          "source_url": "https://raw.githubusercontent.com/wravery/webview2-rs/edc2caf886175ccaebe86078c9cfe1ae2a187328/LICENSE",
+          "repository_path": "LICENSE",
+          "revision": "edc2caf886175ccaebe86078c9cfe1ae2a187328",
+          "sha256": "0dcf41516e608bbcb6cdc5229feb7b86fe4a643b85e7df251133c93408fdac73",
+          "bytes": 1067
+        }
+      ]
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "selectors",
+      "version": "0.38.0",
+      "expected_lock_source": "registry+https://github.com/rust-lang/crates.io-index",
+      "expected_lock_checksum": "8adfa1c298912827b8a28b223b3b874357397ae706e6190acd9bf28cee99114d",
+      "license_expression": "MPL-2.0",
+      "repository": "https://github.com/servo/stylo",
+      "revision": "572ecba2d1600e7c3d490586692a209faf703baa",
+      "evidence": {
+        "basis": "Exact package lib.rs header specifies MPL-2.0 and links the Mozilla license; repository has no package LICENSE text. License fetched from Mozilla official text endpoint, not another crate.",
+        "declaration_source_url": "https://raw.githubusercontent.com/servo/stylo/572ecba2d1600e7c3d490586692a209faf703baa/selectors/lib.rs",
+        "declaration_source_sha256": "d54c6e13e9e952dac17d209171df8657e3cae93beaddace4906150cdec8d02e9",
+        "source_code_url": "https://github.com/servo/stylo/tree/572ecba2d1600e7c3d490586692a209faf703baa/selectors",
+        "versioned_crate_url": "https://static.crates.io/crates/selectors/selectors-0.38.0.crate"
+      },
+      "files": [
+        {
+          "path": "cargo/selectors-0.38.0/LICENSE-MPL-2.0.txt",
+          "filename": "LICENSE-MPL-2.0.txt",
+          "source_url": "https://www.mozilla.org/media/MPL/2.0/index.txt",
+          "repository_path": "MPL/2.0/index.txt",
+          "revision": "572ecba2d1600e7c3d490586692a209faf703baa",
+          "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+          "bytes": 16726
+        }
+      ]
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tauri-apps/plugin-dialog",
+      "version": "2.8.4",
+      "expected_lock_integrity": "sha512-+6ZOiXenOaxXwb8qCbBPdT2jX2cFPaVVHGIskrpmJLpmWj+qKRTD6X/z9x7hTdSQn7NedcoXCkWGej4a7dC4lw==",
+      "license_expression": "MIT OR Apache-2.0",
+      "repository": "https://github.com/tauri-apps/plugins-workspace",
+      "revision": "128190689dbe59b59d344e01bf07b00862aa3791",
+      "evidence": {
+        "basis": "Official npm exact version gitHead; dist.integrity matches package-lock.json; corresponding repository plugins/dialog/package.json name/version verified.",
+        "metadata_url": "https://registry.npmjs.org/@tauri-apps/plugin-dialog/2.8.4",
+        "package_manifest_url": "https://raw.githubusercontent.com/tauri-apps/plugins-workspace/128190689dbe59b59d344e01bf07b00862aa3791/plugins/dialog/package.json"
+      },
+      "files": [
+        {
+          "path": "npm/tauri-apps_plugin-dialog-2.8.4/LICENSE_APACHE-2.0",
+          "filename": "LICENSE_APACHE-2.0",
+          "source_url": "https://raw.githubusercontent.com/tauri-apps/plugins-workspace/128190689dbe59b59d344e01bf07b00862aa3791/plugins/dialog/LICENSE_APACHE-2.0",
+          "repository_path": "plugins/dialog/LICENSE_APACHE-2.0",
+          "revision": "128190689dbe59b59d344e01bf07b00862aa3791",
+          "sha256": "0cec06e0e55fbc3dc5cee4fca9b607f66cb8f4e4dbcf3b3c013594dd156732e9",
+          "bytes": 10173
+        },
+        {
+          "path": "npm/tauri-apps_plugin-dialog-2.8.4/LICENSE_MIT",
+          "filename": "LICENSE_MIT",
+          "source_url": "https://raw.githubusercontent.com/tauri-apps/plugins-workspace/128190689dbe59b59d344e01bf07b00862aa3791/plugins/dialog/LICENSE_MIT",
+          "repository_path": "plugins/dialog/LICENSE_MIT",
+          "revision": "128190689dbe59b59d344e01bf07b00862aa3791",
+          "sha256": "89ff9689dcf9dd53968785d05a26f7898bb169dbfcada8d032b3e68cf0d55607",
+          "bytes": 1089
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+/* Content-first layout: shared desktop chrome is one 52px row. Import this
+   after style.css. main.ts owns removing duplicate page headings/disclosures;
+   this file never hides errors, progress, confirmations or operation controls. */
+:root {
+  --content-inset: 16px;
+  --content-gap: 12px;
+  --chrome-height: 52px;
+  --navigation-width: 176px;
+}
+
+.sidebar {
+  width: var(--navigation-width);
+  padding: 14px 12px 12px;
+}
+.brand { gap: 9px; padding: 0 4px 14px; }
+.brand-name { font-size: 16px; letter-spacing: -.35px; }
+.brand-name > span { font-size: 13px; margin-top: 2px; }
+.brand-mark-controller { width: 31px; height: 31px; }
+.brand-mark-controller svg { width: 31px; height: 25px; }
+.nav-caption { font-size: 10px; padding: 0 10px 8px; letter-spacing: 1.3px; }
+.sidebar nav { gap: 4px; }
+.nav-item { min-height: 40px; padding: 9px 10px; gap: 9px; font-size: 13px; }
+.sidebar-bottom { padding: 12px 10px 0; }
+.sidebar-bottom p { margin: 5px 0 3px; font-size: 10px; }
+.sidebar-bottom .local-pill { font-size: 11px; }
+.version-label { font-size: 10px; }
+
+.workspace { margin-left: var(--navigation-width); min-width: 0; }
+.topbar {
+  height: var(--chrome-height);
+  min-height: var(--chrome-height);
+  padding: 0 var(--content-inset);
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  background: var(--bg);
+}
+.topbar-title { display: flex; align-items: center; gap: 9px; min-width: 0; flex: 1; }
+.topbar-title h1, h1.topbar-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 620;
+  line-height: 1.35;
+  letter-spacing: -.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.topbar-title > .icon { width: 18px; height: 18px; flex: none; color: var(--accent-text); }
+.topbar-actions { gap: 8px; flex: none; }
+.topbar-actions .button { min-height: 32px; padding: 6px 10px; font-size: 12px; }
+.topbar-actions .language-button { min-height: 30px; padding: 5px 4px; }
+.topbar-actions .badge { padding: 4px 7px; font-size: 10px; }
+.breadcrumb { gap: 9px; font-size: 12px; min-width: 0; }
+.demo-banner { padding: 4px var(--content-inset); font-size: 11px; line-height: 1.4; }
+
+.workspace > main {
+  max-width: none;
+  margin: 0;
+  padding: 12px var(--content-inset) 10px;
+}
+.page-content { gap: var(--content-gap); min-width: 0; }
+.page-head { margin-bottom: 12px; gap: 12px; }
+.page-head h1 { margin: 0; font-size: 22px; line-height: 1.35; }
+.page-head .eyebrow { margin-bottom: 4px; }
+.page-head p { margin-top: 5px; font-size: 12px; line-height: 1.45; }
+.page-actions { gap: 7px; padding-top: 0; }
+.surface, .workspace-panel, .report-panel { padding: 14px; }
+.section-heading { gap: 12px; margin-bottom: 12px; }
+.section-heading p { margin-top: 4px; line-height: 1.45; }
+.technical-evidence { margin-top: 8px; padding-top: 7px; }
+.technical-evidence pre { margin-top: 7px; padding: 10px 12px; }
+
+.page-footer {
+  margin-top: 8px;
+  padding-top: 6px;
+  gap: 8px 14px;
+  font-size: 10px;
+  line-height: 1.45;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.page-footer > span:first-child { min-width: 0; }
+.workspace > main > .page-footer { margin-top: 8px; }
+.page-footer details { min-width: 0; }
+.page-footer summary { cursor: pointer; }
+.page-footer details[open] { flex-basis: 100%; }
+
+/* Necessary feedback remains in flow; only its padding is reduced. */
+.error-banner, .session-only-banner { margin: 0 0 10px; padding: 10px 12px; gap: 9px; }
+.session-only-banner { font-size: 12px; line-height: 1.5; }
+.progress-strip { margin: 0 0 10px; min-height: 25px; }
+.inline-notice { padding: 10px 12px; }
+.empty-state { min-height: 110px; padding: 16px; }
+.empty-icon { width: 34px; height: 34px; margin-bottom: 9px; }
+.empty-icon .icon { width: 21px; height: 21px; }
+.empty-state h3 { font-size: 16px; }
+.empty-state p { font-size: 12px; line-height: 1.5; }
+
+/* Page-specific spacing, without changing card cover dimensions or aspect. */
+.kernel-hero { min-height: 160px; padding: 18px 22px; }
+.hero-content h2 { font-size: 24px; line-height: 1.4; }
+.hero-content p { margin-top: 7px; font-size: 12px; line-height: 1.55; }
+.hero-badges { margin-top: 12px; gap: 7px; }
+.management-panel, .manifest-control, .extraction-panel, .catalog-search-panel { gap: 12px; }
+.management-grid { gap: 14px; }
+.management-actions, .catalog-search-row { gap: 8px; }
+.method-option { padding: 11px; gap: 8px; }
+.plan-preview { padding: 11px 13px; }
+.plan-facts { margin: 8px 0; gap: 12px; flex-wrap: wrap; }
+.installation-summary, .installed-file-grid { gap: 16px; }
+.installation-status-block { padding-right: 16px; gap: 7px; }
+.installation-facts > div { padding: 10px 12px; }
+.installation-facts strong { margin-top: 6px; }
+.installed-file-details { gap: 11px; }
+.metrics-grid, .overview-split, .settings-grid { gap: 12px; }
+.metric { padding: 15px; }
+.diagnostic-item { padding: 13px; gap: 12px; }
+.diagnostics-list { gap: 8px; }
+.diagnostic-heading { gap: 9px; }
+.storage-item, .recent-row { padding-top: 10px; padding-bottom: 10px; }
+.settings-columns { gap: 12px; margin-bottom: 8px; }
+.setting-toggle { padding: 10px 0; gap: 12px; }
+.setting-toggle span { gap: 3px; }
+.settings-customization { margin-top: 10px; padding-top: 10px; gap: 4px; }
+.settings-save { margin-top: 10px; padding-top: 10px; }
+.theme-selector { gap: 8px; margin-top: 10px; }
+.field-label { margin-bottom: 6px; }
+.library-toolbar { gap: 10px; padding: 12px 14px; }
+.library-toolbar-summary { gap: 10px; }
+.library-toolbar-row { gap: 8px; }
+.quick-add { gap: 8px; margin-top: 8px; }
+.lua-game-grid, .catalog-grid { gap: 12px; }
+.catalog-strip { gap: 12px; padding-bottom: 8px; }
+.catalog-body { gap: 6px; padding: 11px 12px; }
+.catalog-options { gap: 9px 16px; }
+.lua-list-row { padding: 10px 12px; gap: 10px; }
+.lua-table th, .lua-table td { padding: 9px 12px; }
+
+/* Browser-style achievement workspace uses the recovered vertical space. */
+.achievement-browser { min-height: 320px; }
+.achievement-browser-tabs { min-height: 40px; padding: 4px 5px 0; }
+.achievement-browser-tab { padding: 8px 12px; }
+.achievement-workspace-chrome { padding: 12px 14px 10px; }
+.achievement-workspace-chrome .achievement-action-grid { margin-top: 9px; gap: 7px; }
+.achievement-workspace-chrome .achievement-action-grid .button { padding: 7px 10px; }
+.achievement-workspace-chrome .achievement-list-toolbar { margin-top: 9px; }
+.achievement-workspace-chrome .achievement-action-note { margin-top: 7px; padding: 7px 9px; }
+.achievement-tab-scroll { padding: 10px 12px 14px; }
+.achievement-library-scroll > .surface + .surface { margin-top: 12px; }
+.achievement-library-scroll .achievement-library, .achievement-library-scroll .achievement-history { padding: 14px; }
+.achievement-row { padding: 10px; gap: 11px; margin-top: 8px; }
+.achievement-item-copy h3 { margin-bottom: 4px; }
+.achievement-item-copy p { margin-bottom: 5px; line-height: 1.45; }
+.achievement-item-meta { gap: 8px; }
+.achievement-item-actions > .button { padding: 7px 10px; }
+.achievement-list-toolbar { margin: 12px 0 10px; gap: 9px; }
+.achievement-loading { min-height: 100px; }
+.achievement-selected-header { gap: 12px; }
+
+/* Optional compact mode is denser still, rather than required for usable space. */
+:root[data-density="compact"] { --content-inset: 12px; --content-gap: 9px; --chrome-height: 48px; }
+:root[data-density="compact"] .workspace > main { padding-top: 9px; }
+:root[data-density="compact"] .surface,
+:root[data-density="compact"] .workspace-panel,
+:root[data-density="compact"] .report-panel { padding: 11px; }
+:root[data-density="compact"] .page-content { gap: var(--content-gap); }
+:root[data-density="compact"] .section-heading { margin-bottom: 9px; }
+:root[data-density="compact"] .nav-item { min-height: 36px; padding-top: 7px; padding-bottom: 7px; }
+:root[data-density="compact"] .achievement-row { padding: 8px; margin-top: 6px; }
+:root[data-density="compact"] .achievement-workspace-chrome { padding: 10px 12px 8px; }
+:root[data-density="compact"] .achievement-tab-scroll { padding: 8px 10px 12px; }
+
+@media (max-width: 980px) {
+  :root { --navigation-width: 64px; --content-inset: 12px; }
+  .sidebar { padding: 12px 7px 10px; }
+  .brand { justify-content: center; padding: 0 0 12px; }
+  .brand-name, .nav-caption, .nav-item > span, .sidebar-bottom { display: none; }
+  .sidebar nav { gap: 6px; }
+  .nav-item { justify-content: center; padding: 9px 0; }
+  .nav-item > .nav-count {
+    display: block;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    font-size: 9px;
+    min-width: 15px;
+    padding: 1px 3px;
+  }
+  .topbar-actions { gap: 5px; }
+  .topbar-actions .button { padding: 6px 8px; }
+  .topbar-title h1, h1.topbar-title { font-size: 17px; }
+}
+@media (max-width: 720px) {
+  .topbar { height: auto; min-height: var(--chrome-height); padding-top: 7px; padding-bottom: 7px; flex-wrap: wrap; }
+  .topbar-title { flex-basis: auto; }
+  .topbar-actions { margin-left: auto; }
+  .workspace > main { padding-top: 10px; }
+  .page-footer { flex-direction: column; align-items: flex-start; }
+  .achievement-workspace-chrome { padding: 10px; }
+  .achievement-item-actions { padding-top: 6px; }
+  .achievement-tab-scroll { padding: 10px; }
+}
+
+/* Main-window secondary actions live in an anchored menu, not another row. */
+.page-options{position:relative;flex:none}
+.page-options>summary{list-style:none;display:grid;place-items:center;width:32px;height:32px;border:1px solid var(--line);border-radius:7px;cursor:pointer;color:var(--muted)}
+.page-options>summary::-webkit-details-marker{display:none}
+.page-options>summary .icon{width:16px;height:16px}
+.page-options-menu{position:absolute;right:0;top:calc(100% + 7px);z-index:50;width:230px;padding:12px;display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:9px;box-shadow:var(--shadow)}
+.page-options-menu small{color:var(--muted);font-size:11px;line-height:1.5}
+.achievement-workspace-primary{display:flex;align-items:center;gap:14px;min-width:0}
+.achievement-workspace-primary>.achievement-selected-header{flex:1;min-width:250px}
+.achievement-workspace-primary .achievement-selected-header>.lua-card-cover{width:72px}
+.achievement-workspace-primary .achievement-selected-header h2{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.achievement-workspace-primary>.achievement-action-grid{margin:0;flex:none;gap:6px}
+.achievement-workspace-primary .achievement-action-grid .button{padding:7px 9px;font-size:11px}
+.achievement-workspace-primary .achievement-selected-header>.badge{font-size:10px;padding:4px 6px}
+.achievement-workspace-chrome .achievement-list-toolbar>.search-field{min-width:180px;flex-basis:0}
+.achievement-workspace-chrome .achievement-action-note{position:relative;display:block;flex:none;padding:0;margin:0;border:0;background:none}
+.achievement-action-note>summary{display:flex;align-items:center;gap:5px;cursor:pointer;white-space:nowrap;list-style:none;padding:7px 3px;color:var(--muted);font-size:11px}
+.achievement-action-note>summary::-webkit-details-marker{display:none}
+.achievement-action-note>span{position:absolute;right:0;top:100%;width:min(390px,65vw);z-index:25;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px;color:var(--muted);box-shadow:var(--shadow)}
+.achievement-action-note:not([open])>span{display:none}
+.achievement-workspace-chrome{overflow:visible;max-height:none}
+.achievement-language-tag{color:var(--faint);font-size:11px}
+.achievement-history>summary{cursor:pointer;font-size:12px;color:var(--muted)}
+.achievement-history>summary small{margin-left:6px}
+.achievement-library-scroll .achievement-search-row{margin-top:0;margin-bottom:10px}
+.achievement-library-scroll .achievement-section-label{margin-top:12px;margin-bottom:8px}
+@media(max-width:1160px){.achievement-workspace-primary{flex-wrap:wrap;gap:8px}.achievement-workspace-primary>.achievement-selected-header{flex-basis:100%}.achievement-workspace-primary>.achievement-action-grid{flex-wrap:wrap}}
+@media(max-height:640px){.achievement-workspace-chrome{max-height:60%;overflow:auto}}

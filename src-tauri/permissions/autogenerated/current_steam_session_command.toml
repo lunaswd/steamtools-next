@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-current-steam-session-command"
+description = "Enables the current_steam_session_command command without any pre-configured scope."
+commands.allow = ["current_steam_session_command"]
+
+[[permission]]
+identifier = "deny-current-steam-session-command"
+description = "Denies the current_steam_session_command command without any pre-configured scope."
+commands.deny = ["current_steam_session_command"]

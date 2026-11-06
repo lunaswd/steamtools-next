@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-list-achievements-command"
+description = "Enables the list_achievements_command command without any pre-configured scope."
+commands.allow = ["list_achievements_command"]
+
+[[permission]]
+identifier = "deny-list-achievements-command"
+description = "Denies the list_achievements_command command without any pre-configured scope."
+commands.deny = ["list_achievements_command"]

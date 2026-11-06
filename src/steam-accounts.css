@@ -1,0 +1,48 @@
+/* Native Steam account controls, anchored to the persistent lower-left rail. */
+.sidebar .sidebar-bottom{display:block}
+.steam-account-controls{position:relative;margin:0 -4px 10px}
+.steam-account-button{display:flex;align-items:center;gap:8px;width:100%;min-height:46px;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);text-align:left;cursor:pointer}
+.steam-account-button:hover,.steam-account-button[aria-expanded="true"]{border-color:var(--accent);background:var(--surface-hover,var(--surface))}
+.steam-account-button>.icon{width:18px;height:18px;flex:none;color:var(--accent-text)}
+.steam-account-button>span:not(.steam-account-chevron){flex:1;min-width:0}
+.steam-account-button strong,.steam-account-button small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.steam-account-button strong{font-size:11px;font-weight:600}
+.steam-account-button small{font-size:10px;color:var(--muted);margin-top:2px}
+.steam-account-chevron{color:var(--muted);font-size:13px;flex:none}
+.steam-account-menu{position:absolute;left:0;bottom:calc(100% + 9px);z-index:70;width:min(350px,calc(100vw - 34px));max-height:min(640px,calc(100vh - 108px));overflow:auto;padding:15px;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);color:var(--text);scrollbar-gutter:stable;outline:none}
+.steam-account-menu>header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.steam-account-menu h2{font-size:14px;line-height:1.4;margin:0 0 4px}
+.steam-account-status{font-size:11px;color:var(--muted)}
+.steam-account-menu .icon-button{flex:none;min-width:26px;width:26px;height:26px;font-size:20px}
+.steam-account-current{padding:10px;border:1px solid var(--line-soft);border-radius:7px;background:var(--bg);display:flex;flex-direction:column;gap:4px}
+.steam-account-current>span{font-size:10px;color:var(--muted)}
+.steam-account-current strong{font-size:13px;overflow-wrap:anywhere}
+.steam-account-current small{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+.sidebar-bottom .steam-account-menu p{margin:9px 0;padding:0;width:auto;line-height:1.6;letter-spacing:0;text-transform:none}
+.steam-account-hint,.steam-account-login-note{font-size:11px;color:var(--muted)}
+.steam-account-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:12px 0}
+.steam-account-menu .button{font-size:11px;padding:8px;min-height:34px;justify-content:center;white-space:normal}
+.steam-account-actions .icon{width:15px;height:15px;flex:none}
+.steam-account-list-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:10px;border-top:1px solid var(--line-soft);font-size:11px;font-weight:600}
+.steam-account-refresh{padding:3px 1px;border:0;background:none;color:var(--accent-text);font-size:11px;cursor:pointer}
+.steam-saved-account-list{list-style:none;margin:9px 0 0;padding:0;display:flex;flex-direction:column;gap:4px;max-height:180px;overflow:auto}
+.steam-saved-account-list li{display:flex;align-items:center;gap:8px;padding:7px;border-radius:6px;background:var(--bg)}
+.steam-saved-account-avatar{display:grid;place-items:center;width:27px;height:27px;flex:none;border:1px solid var(--line);border-radius:6px;color:var(--accent-text);background:var(--surface);font-size:12px}
+.steam-saved-account-list li>div{flex:1;min-width:0}
+.steam-saved-account-list strong,.steam-saved-account-list small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.steam-saved-account-list strong{font-size:11px}
+.steam-saved-account-list small{font-size:10px;color:var(--muted);margin-top:2px}
+.steam-account-selected{font-size:9px;color:var(--accent-text);flex:none}
+.steam-account-empty{font-size:11px;color:var(--muted);padding:7px 0}
+.steam-account-error,.steam-account-result,.steam-account-confirmation{padding:10px;border:1px solid var(--line);border-radius:7px;font-size:11px;margin:10px 0}
+.steam-account-error{border-color:#bd6565;background:rgba(180,54,54,.1)}
+.steam-account-error details{margin-top:7px}
+.steam-account-error pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:10px;margin:7px 0 0}
+.steam-account-result{border-color:var(--accent);line-height:1.6}
+.steam-account-confirmation{background:var(--bg)}
+.steam-account-confirmation strong{font-size:12px}
+.steam-account-confirm-target{display:block;font-size:10px;overflow-wrap:anywhere;margin:8px 0;color:var(--muted)}
+.steam-account-confirmation>div{display:flex;justify-content:flex-end;gap:7px}
+.steam-account-warnings,.steam-account-result ul{padding-left:16px;font-size:11px;color:var(--muted);line-height:1.6;margin:8px 0}
+.steam-account-button:disabled,.steam-account-menu button:disabled{opacity:.5;cursor:default}
+.steam-account-button:focus-visible,.steam-account-menu button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}

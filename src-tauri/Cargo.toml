@@ -1,0 +1,19 @@
+[package]
+name = "steam-tools-next"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "SteamTools Next — Steam library, achievement and kernel management"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+steam-tools-core = { path = "../crates/core" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[dev-dependencies]
+tauri = { version = "2", features = ["test"] }
