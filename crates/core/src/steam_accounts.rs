@@ -628,7 +628,9 @@ fn decode_vdf(bytes: &[u8]) -> Result<(String, Encoding)> {
         }
         let little = bytes[0] == 0xff;
         let words: Vec<_> = bytes[2..]
-            .chunks_exact(2)
+            .as_chunks::<2>()
+            .0
+            .iter()
             .map(|pair| {
                 if little {
                     u16::from_le_bytes([pair[0], pair[1]])

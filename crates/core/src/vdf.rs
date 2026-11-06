@@ -61,7 +61,9 @@ pub fn read(path: &Path) -> Result<Value> {
         }
         let little = bytes[0] == 0xff;
         let words: Vec<u16> = bytes[2..]
-            .chunks_exact(2)
+            .as_chunks::<2>()
+            .0
+            .iter()
             .map(|p| {
                 if little {
                     u16::from_le_bytes([p[0], p[1]])
