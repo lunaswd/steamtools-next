@@ -66,7 +66,7 @@ function demoReceipt(operation:KernelOperationReceipt['operation'],plan:KernelOp
 }
 
 export async function getEnvironment():Promise<Environment> {
-  return desktop ? invoke('get_environment_command') : {locale:navigator.language,version:'0.3.0',defaultKernelPath:null,defaultKernelArtifactPath:null,defaultKernelReleaseSource:DEFAULT_KERNEL_RELEASE_SOURCE,desktop:false};
+  return desktop ? invoke('get_environment_command') : {locale:navigator.language,version:'0.3.4',defaultKernelPath:null,defaultKernelArtifactPath:null,defaultKernelReleaseSource:DEFAULT_KERNEL_RELEASE_SOURCE,desktop:false};
 }
 export async function scanSteam(path?:string|null):Promise<SteamSnapshot> {
   return desktop ? invoke('scan_steam_command',{path:path||null}) : clone(demoSteam);

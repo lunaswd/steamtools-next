@@ -40,7 +40,7 @@ const state={
  kernelInstallation:null as KernelInstallation|null,kernelReceipt:null as KernelOperationReceipt|null,kernelRelease:null as KernelReleaseArtifact|null,
  installedScanComplete:false,installedError:null as UIFailure|null,luaLibrary:null as LuaLibrarySnapshot|null,catalogResults:[] as CatalogGame[],rankings:null as CatalogRankings|null,
  catalogQuery:'',catalogLog:[] as string[],catalogPartial:[] as number[],extractAppId:'',currentSession:null as CurrentSteamSession|null,sessionLoading:false,sessionError:null as UIFailure|null,sessionExtraction:null as CurrentSessionExtraction|null,extractionExport:null as ExtractionExportReceipt|null,manifestCursor:emptyCursor(),manifestResult:null as ManifestBatchResult|null,manifestMode:'code' as 'code'|'manifestHub',manifestApiKey:'',manifestRunning:false,manifestTimer:0,
- draftSettings:{...defaultSettings} as Settings,persistedSettings:{...defaultSettings} as Settings,environment:{locale:'en',version:'0.3.0',defaultKernelPath:null,defaultKernelArtifactPath:null,desktop:true} as Environment,
+ draftSettings:{...defaultSettings} as Settings,persistedSettings:{...defaultSettings} as Settings,environment:{locale:'en',version:'0.3.4',defaultKernelPath:null,defaultKernelArtifactPath:null,desktop:true} as Environment,
   libraryQuery:'',libraryFilter:'all',libraryView:'cards' as LibraryView,librarySort:'nameAsc' as LibrarySort,basicAppId:'',achievementQuery:'',severity:'all',settingsLoaded:false,busy:'app.initializing',error:null as UIFailure|null,toast:'',initialized:false,
  get achievementAppId(){return achievementTabs.activeId===null?'':String(achievementTabs.activeId)},
  get achievementCatalog():AchievementCatalog|null{return achievementTabs.active?.catalog||null},
