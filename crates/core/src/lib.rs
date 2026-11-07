@@ -1,6 +1,8 @@
 //! Shared Steam workspace, Lua library, and OpenSteamTool management services.
 pub mod achievements;
 pub mod archive_import;
+pub mod authorization;
+pub mod authorization_worker;
 pub mod catalog;
 pub mod covers;
 pub mod extract;
@@ -21,6 +23,8 @@ pub mod vdf;
 
 pub use achievements::*;
 pub use archive_import::*;
+pub use authorization::*;
+pub use authorization_worker::*;
 pub use catalog::*;
 pub use covers::*;
 pub use extract::*;

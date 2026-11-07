@@ -33,6 +33,10 @@
 .steam-saved-account-list strong{font-size:11px}
 .steam-saved-account-list small{font-size:10px;color:var(--muted);margin-top:2px}
 .steam-account-selected{font-size:9px;color:var(--accent-text);flex:none}
+.steam-account-switch{flex:none;min-height:27px;max-width:90px;padding:4px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--accent-text);font-size:10px;cursor:pointer;white-space:normal;overflow-wrap:anywhere}
+.steam-account-switch:hover:not(:disabled){border-color:var(--accent);background:var(--surface-hover,var(--surface))}
+.steam-account-confirm-account{display:flex;flex-direction:column;gap:3px;padding:7px 0;overflow-wrap:anywhere}
+.steam-account-confirm-account small{color:var(--muted);font-size:11px}
 .steam-account-empty{font-size:11px;color:var(--muted);padding:7px 0}
 .steam-account-error,.steam-account-result,.steam-account-confirmation{padding:10px;border:1px solid var(--line);border-radius:7px;font-size:11px;margin:10px 0}
 .steam-account-error{border-color:#bd6565;background:rgba(180,54,54,.1)}
@@ -42,7 +46,7 @@
 .steam-account-confirmation{background:var(--bg)}
 .steam-account-confirmation strong{font-size:12px}
 .steam-account-confirm-target{display:block;font-size:10px;overflow-wrap:anywhere;margin:8px 0;color:var(--muted)}
-.steam-account-confirmation>div{display:flex;justify-content:flex-end;gap:7px}
+.steam-account-confirmation>div:not(.steam-account-confirm-account){display:flex;justify-content:flex-end;gap:7px}
 .steam-account-warnings,.steam-account-result ul{padding-left:16px;font-size:11px;color:var(--muted);line-height:1.6;margin:8px 0}
 .steam-account-button:disabled,.steam-account-menu button:disabled{opacity:.5;cursor:default}
 .steam-account-button:focus-visible,.steam-account-menu button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}

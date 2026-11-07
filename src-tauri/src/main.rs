@@ -181,6 +181,136 @@ async fn relogin_steam_command(
     .await
 }
 
+#[tauri::command]
+async fn switch_saved_steam_account_command(
+    steam_path: Option<String>,
+    steam_id: String,
+) -> Result<steam_tools_core::SteamLifecycleReceipt, CommandError> {
+    let root = require_path(steam_path.as_deref().unwrap_or(""), "Steam path")?;
+    background("steamAccounts.operationFailed", move || {
+        steam_tools_core::switch_saved_steam_account(&root, &steam_id)
+            .map_err(|error| error.to_string())
+    })
+    .await
+}
+
+#[tauri::command]
+async fn inspect_authorization_ticket_command(
+    source_path: String,
+) -> Result<steam_tools_core::AuthorizationTicketSummary, CommandError> {
+    let source = require_path(&source_path, "Authorization file")?;
+    background("authorization.invalidFile", move || {
+        steam_tools_core::inspect_authorization_file(&source).map_err(|error| error.to_string())
+    })
+    .await
+}
+
+#[tauri::command]
+async fn authorization_session_command(
+    steam_path: String,
+    app_id: u32,
+) -> Result<steam_tools_core::AuthorizationSessionSummary, CommandError> {
+    let root = require_path(&steam_path, "Steam path")?;
+    background_session("authorization.failed", move || {
+        let executable = std::env::current_exe()
+            .map_err(|error| CommandError::operation("authorization.failed", error))?;
+        let cache = app_data_dir()
+            .map_err(|error| CommandError::operation("authorization.failed", error))?
+            .join("cache")
+            .join("authorization-workers-v1");
+        steam_tools_core::authorization_session(&executable, &cache, &root, app_id).map_err(
+            |error| {
+                CommandError::steam_session(
+                    "authorization.failed",
+                    steam_tools_core::steam_session_error_code(&error),
+                    error,
+                )
+            },
+        )
+    })
+    .await
+}
+
+#[tauri::command]
+async fn extract_authorization_ticket_command(
+    steam_path: String,
+    app_id: u32,
+    expected_steam_id: String,
+    destination: String,
+    overwrite: bool,
+) -> Result<steam_tools_core::AuthorizationExportReceipt, CommandError> {
+    let root = require_path(&steam_path, "Steam path")?;
+    let destination = require_path(&destination, "Private authorization destination")?;
+    background_session("authorization.failed", move || {
+        let executable = std::env::current_exe()
+            .map_err(|error| CommandError::operation("authorization.failed", error))?;
+        let cache = app_data_dir()
+            .map_err(|error| CommandError::operation("authorization.failed", error))?
+            .join("cache")
+            .join("authorization-workers-v1");
+        steam_tools_core::extract_authorization_ticket(
+            &executable,
+            &cache,
+            &steam_tools_core::AuthorizationExtractRequest {
+                steam_root: root,
+                app_id,
+                expected_steam_id,
+                destination,
+                overwrite,
+            },
+        )
+        .map_err(|error| {
+            CommandError::steam_session(
+                "authorization.failed",
+                steam_tools_core::steam_session_error_code(&error),
+                error,
+            )
+        })
+    })
+    .await
+}
+
+#[tauri::command]
+async fn import_authorization_ticket_command(
+    steam_path: String,
+    app_id: u32,
+    expected_steam_id: String,
+    source_path: String,
+    expected_sha256: String,
+    overwrite: bool,
+) -> Result<steam_tools_core::AuthorizationImportReceipt, CommandError> {
+    let root = require_path(&steam_path, "Steam path")?;
+    let source = require_path(&source_path, "Private authorization source")?;
+    background_session("authorization.failed", move || {
+        let executable = std::env::current_exe()
+            .map_err(|error| CommandError::operation("authorization.failed", error))?;
+        let cache = app_data_dir()
+            .map_err(|error| CommandError::operation("authorization.failed", error))?
+            .join("cache")
+            .join("authorization-workers-v1");
+        steam_tools_core::import_current_account_authorization_file(
+            &executable,
+            &cache,
+            &steam_tools_core::AuthorizationImportRequest {
+                steam_root: root,
+                app_id,
+                expected_steam_id,
+                source,
+                expected_sha256,
+                overwrite,
+            },
+        )
+        .map_err(|error| {
+            CommandError::steam_session(
+                "authorization.failed",
+                steam_tools_core::steam_session_error_code(&error),
+                error,
+            )
+        })
+    })
+    .await
+}
+
 #[derive(Debug, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 struct UpdateCheck {
@@ -1017,6 +1147,17 @@ fn main() {
     let args: Vec<_> = std::env::args_os().collect();
     if args
         .get(1)
+        .is_some_and(|arg| arg == steam_tools_core::AUTHORIZATION_WORKER_ARGUMENT)
+    {
+        if args.len() != 4 {
+            std::process::exit(2);
+        }
+        let result =
+            steam_tools_core::run_authorization_worker(Path::new(&args[2]), Path::new(&args[3]));
+        std::process::exit(if result.is_ok() { 0 } else { 2 });
+    }
+    if args
+        .get(1)
         .is_some_and(|arg| arg == steam_tools_core::TOOL_UPDATE_HELPER_ARGUMENT)
     {
         if args.len() != 3 {
@@ -1051,6 +1192,11 @@ fn main() {
             steam_account_state_command,
             restart_steam_command,
             relogin_steam_command,
+            switch_saved_steam_account_command,
+            authorization_session_command,
+            inspect_authorization_ticket_command,
+            extract_authorization_ticket_command,
+            import_authorization_ticket_command,
             check_updates_command,
             install_tool_update_command,
             current_steam_session_command,

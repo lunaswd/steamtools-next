@@ -8,6 +8,7 @@
   "permissions": [
     "core:default",
     "dialog:allow-open",
+    "dialog:allow-save",
     "allow-scan-steam-command",
     "allow-current-steam-session-command",
     "allow-extract-current-session-command",
@@ -38,7 +39,12 @@
     "allow-steam-account-state-command",
     "allow-restart-steam-command",
     "allow-relogin-steam-command",
+    "allow-switch-saved-steam-account-command",
     "allow-check-updates-command",
-    "allow-install-tool-update-command"
+    "allow-install-tool-update-command",
+    "allow-authorization-session-command",
+    "allow-inspect-authorization-ticket-command",
+    "allow-extract-authorization-ticket-command",
+    "allow-import-authorization-ticket-command"
   ]
 }

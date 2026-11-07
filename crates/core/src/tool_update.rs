@@ -18,7 +18,7 @@ use std::{
     time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 
-pub const DEFAULT_TOOL_RELEASE_SOURCE: &str = "https://github.com/lunaswd/steamtools-next";
+pub const DEFAULT_TOOL_RELEASE_SOURCE: &str = "https://github.com/lunaswd/SteamTools-Next";
 pub const TOOL_UPDATE_HELPER_ARGUMENT: &str = "--apply-update-helper";
 const MANIFEST_NAME: &str = "tool-release.json";
 const PLAN_NAME: &str = "plan.json";

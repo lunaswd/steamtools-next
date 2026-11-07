@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-import-authorization-ticket-command"
+description = "Enables the import_authorization_ticket_command command without any pre-configured scope."
+commands.allow = ["import_authorization_ticket_command"]
+
+[[permission]]
+identifier = "deny-import-authorization-ticket-command"
+description = "Denies the import_authorization_ticket_command command without any pre-configured scope."
+commands.deny = ["import_authorization_ticket_command"]

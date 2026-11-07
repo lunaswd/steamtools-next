@@ -14,6 +14,11 @@ fn app_with_context(context: tauri::Context<MockRuntime>) -> tauri::App<MockRunt
             super::steam_account_state_command,
             super::restart_steam_command,
             super::relogin_steam_command,
+            super::switch_saved_steam_account_command,
+            super::authorization_session_command,
+            super::inspect_authorization_ticket_command,
+            super::extract_authorization_ticket_command,
+            super::import_authorization_ticket_command,
             super::install_remote_kernel_command
         ])
         .build(context)
@@ -69,12 +74,14 @@ fn invoke(
             callback: tauri::ipc::CallbackFn(0),
             error: tauri::ipc::CallbackFn(1),
             url: origin.parse().unwrap(),
-            body: InvokeBody::Json(serde_json::json!({"steamPath":"", "request": {
-                "steamRoot": "",
-                "installExampleConfig": false,
-                "backupRoot": null,
-                "dryRun": true
-            }})),
+            body: InvokeBody::Json(
+                serde_json::json!({"steamPath":"", "steamId":"1", "appId":42,"sourcePath":"","expectedSteamId":"1","expectedSha256":"","destination":"","overwrite":false, "request": {
+                    "steamRoot": "",
+                    "installExampleConfig": false,
+                    "backupRoot": null,
+                    "dryRun": true
+                }}),
+            ),
             headers: Default::default(),
             invoke_key: tauri::test::INVOKE_KEY.to_string(),
         },
@@ -90,6 +97,11 @@ fn remote_kernel_commands_reach_validation_through_real_local_ipc_acl() {
         "steam_account_state_command",
         "restart_steam_command",
         "relogin_steam_command",
+        "switch_saved_steam_account_command",
+        "authorization_session_command",
+        "inspect_authorization_ticket_command",
+        "extract_authorization_ticket_command",
+        "import_authorization_ticket_command",
     ] {
         let error = invoke(&main, command, "http://tauri.localhost")
             .expect_err("Empty Steam path must be rejected by input validation");
@@ -110,6 +122,11 @@ fn remote_kernel_commands_stay_denied_to_remote_web_origins() {
         "steam_account_state_command",
         "restart_steam_command",
         "relogin_steam_command",
+        "switch_saved_steam_account_command",
+        "authorization_session_command",
+        "inspect_authorization_ticket_command",
+        "extract_authorization_ticket_command",
+        "import_authorization_ticket_command",
     ] {
         let error = invoke(&main, command, "https://example.invalid")
             .expect_err("App command permissions must not extend to a remote origin");

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-switch-saved-steam-account-command"
+description = "Enables the switch_saved_steam_account_command command without any pre-configured scope."
+commands.allow = ["switch_saved_steam_account_command"]
+
+[[permission]]
+identifier = "deny-switch-saved-steam-account-command"
+description = "Denies the switch_saved_steam_account_command command without any pre-configured scope."
+commands.deny = ["switch_saved_steam_account_command"]

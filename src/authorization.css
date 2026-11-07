@@ -1,0 +1,28 @@
+/* Private authorization metadata only; no ticket bytes are rendered. */
+.authorization-page{display:flex;flex-direction:column;gap:12px}
+.authorization-page h2{font-size:15px;margin:0 0 9px}
+.authorization-page p{font-size:12px;line-height:1.6;color:var(--muted);margin:8px 0}
+.authorization-app-controls{display:flex;align-items:flex-end;gap:10px;margin-top:12px}
+.authorization-app-controls label{display:flex;flex:1;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)}
+.authorization-app-controls input{min-width:0;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text)}
+.authorization-account{display:flex;gap:12px;align-items:center;margin-top:12px;font-size:12px}
+.authorization-account>span{color:var(--muted)}
+.authorization-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.authorization-columns>.surface{min-width:0}
+.authorization-path code,.authorization-confirmation>code,.authorization-result>code{display:block;overflow-wrap:anywhere;font-size:11px;margin:10px 0;color:var(--muted)}
+.authorization-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0;font-size:12px}
+.authorization-summary>div{min-width:0;padding:9px;background:var(--bg);border:1px solid var(--line-soft);border-radius:7px}
+.authorization-summary dt{color:var(--muted);margin-bottom:5px;font-size:11px}
+.authorization-summary dd{margin:0;overflow-wrap:anywhere}
+.authorization-summary .authorization-hash{grid-column:1/-1}
+.authorization-summary code{font-size:10px;overflow-wrap:anywhere}
+.authorization-error{border:1px solid #bd6565;background:rgba(180,54,54,.1);padding:10px;border-radius:7px;margin-top:12px;font-size:12px}
+.authorization-confirmation h3{font-size:14px;margin:0 0 10px}
+.authorization-confirmation dl{display:flex;gap:20px;font-size:12px;margin:8px 0}
+.authorization-confirmation dt{color:var(--muted);margin-bottom:3px}
+.authorization-confirmation dd{margin:0}
+.authorization-confirmation>div{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.authorization-overwrite{display:flex;gap:8px;align-items:center;font-size:12px;margin:12px 0}
+.authorization-result{border-color:var(--accent)}
+.authorization-page .button{white-space:normal}
+@media(max-width:1000px){.authorization-columns{grid-template-columns:1fr}}

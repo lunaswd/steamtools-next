@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-inspect-authorization-ticket-command"
+description = "Enables the inspect_authorization_ticket_command command without any pre-configured scope."
+commands.allow = ["inspect_authorization_ticket_command"]
+
+[[permission]]
+identifier = "deny-inspect-authorization-ticket-command"
+description = "Denies the inspect_authorization_ticket_command command without any pre-configured scope."
+commands.deny = ["inspect_authorization_ticket_command"]

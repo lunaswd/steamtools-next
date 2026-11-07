@@ -18,3 +18,8 @@ export async function restartSteam(steamPath:string|null):Promise<SteamLifecycle
 export async function reloginSteam(steamPath:string|null):Promise<SteamLifecycleReceipt> {
   return isTauri()?invoke('relogin_steam_command',{steamPath}):lifecycle('relogin');
 }
+
+/** Select only a Steam-owned saved account; never accept authentication data. */
+export async function switchSavedSteamAccount(steamPath:string|null,steamId:string):Promise<SteamLifecycleReceipt> {
+  return isTauri()?invoke('switch_saved_steam_account_command',{steamPath,steamId}):lifecycle('switchAccount');
+}

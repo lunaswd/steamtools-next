@@ -21,7 +21,7 @@ The program checks public GitHub release metadata for tool and kernel updates.
 - Failed checks or downloads keep the current version usable; they do not silently select an unrelated source.
 
 Source and licenses
-Tool: https://github.com/lunaswd/steamtools-next
+Tool: https://github.com/lunaswd/SteamTools-Next
 Kernel and complete corresponding kernel source: https://github.com/lunaswd/steamtools-next-kernel
 See LICENSE.txt, THIRD-PARTY-NOTICES.txt and licenses.txt. SHA256SUMS.txt contains package file checksums.
 

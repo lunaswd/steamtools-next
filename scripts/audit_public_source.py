@@ -26,7 +26,8 @@ BLOCKED_SUFFIXES = {".log", ".bak", ".tmp", ".pdb", ".obj", ".dll", ".exe", ".py
 MEDIA_SUFFIXES = {".png", ".ico", ".jpg", ".jpeg", ".webp", ".gif", ".mp4", ".mp3", ".wav"}
 TOOL_ICON_FILES = {"src-tauri/icons/icon.ico", "src-tauri/icons/icon.png"}
 PRIVATE_NAMES = {"loginusers.vdf", "config.vdf", "settings.json", "localconfig.vdf",
-                 "appaccesstokens.json", "depotkeys.json", "manifest.json", "steamid.txt"}
+                 "appaccesstokens.json", "depotkeys.json", "manifest.json", "steamid.txt",
+                 "tickets.txt", "appticket.bin", "eticket.bin", "ticket-result.json"}
 TEXT_SUFFIXES = {".rs", ".ts", ".json", ".md", ".py", ".ps1", ".toml", ".yaml", ".yml",
                  ".txt", ".mjs", ".html", ".css", ".svg"}
 # These identifiers are protocol constants and explicitly synthetic account
